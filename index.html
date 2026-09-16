@@ -920,7 +920,9 @@ document.querySelectorAll('.work-media[data-gallery]').forEach(g => {
       a.getByteFrequencyData(d);
       const W = canvas.width, H = canvas.height, n = d.length;
       ctx.clearRect(0, 0, W, H);
-      const gap = W / n;
+      const half = W / 2;              /* центр полосы */
+      const gap = half / n;
+      const bw = gap * 0.62;
       let bass = 0, bassN = Math.max(1, Math.floor(n * 0.28));
       for (let i = 0; i < n; i++) {
         const v = d[i] / 255;
@@ -928,7 +930,8 @@ document.querySelectorAll('.work-media[data-gallery]').forEach(g => {
         const h = Math.max(2, v * H);
         ctx.globalAlpha = 0.28 + v * 0.72;
         ctx.fillStyle = accent;
-        ctx.fillRect(i * gap, H - h, gap * 0.62, h);
+        ctx.fillRect(half + i * gap, H - h, bw, h);        /* от центра вправо */
+        ctx.fillRect(half - i * gap - bw, H - h, bw, h);   /* зеркально влево */
       }
       ctx.globalAlpha = 1;
       bass = bass / bassN; /* 0..1 */
