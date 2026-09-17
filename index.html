@@ -285,6 +285,45 @@ header.scrolled{ border-bottom-color:var(--line); background:rgba(10,10,12,.8); 
 .viz{ display:block; width:100%; height:40px; margin-top:12px; opacity:0; transition:opacity .3s ease; }
 .audio-row.playing .viz{ opacity:1; }
 
+/* Плавная смена медиа (кроссфейд слоёв) */
+.stage .media-layer{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition:opacity .45s ease, transform .65s cubic-bezier(.16,1,.3,1); }
+.stage .media-layer.show{ opacity:1; }
+.stage:hover .media-layer.show{ transform:scale(1.07); }
+.stage img.media-layer{ cursor:zoom-in; }
+
+/* Стильная рамка-«видоискатель»: угловые засечки для фото/видео/аудио */
+.stage, .audio-row{ position:relative; }
+.stage::before, .stage::after,
+.lb-inner::before, .lb-inner::after,
+.audio-row::before, .audio-row::after{ content:""; position:absolute; width:16px; height:16px; z-index:3; pointer-events:none; }
+.stage::before, .lb-inner::before, .audio-row::before{ top:9px; left:9px; border-top:1.5px solid var(--accent); border-left:1.5px solid var(--accent); }
+.stage::after, .lb-inner::after, .audio-row::after{ bottom:9px; right:9px; border-bottom:1.5px solid var(--accent); border-right:1.5px solid var(--accent); }
+.audio-row::before, .audio-row::after{ width:13px; height:13px; opacity:.45; }
+
+/* Кнопка увеличения */
+.stage .expand{ position:absolute; top:12px; right:12px; z-index:5; width:34px; height:34px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:9px; background:rgba(10,10,12,.6); backdrop-filter:blur(6px); color:var(--text); cursor:pointer; opacity:0; transition:.25s; }
+.stage:hover .expand{ opacity:1; }
+.stage .expand:hover{ border-color:var(--accent); color:var(--accent); }
+.stage .expand svg{ width:16px; height:16px; }
+
+/* Стрелки перелистывания */
+.stage .nav-arrow{ position:absolute; top:50%; transform:translateY(-50%); z-index:5; width:38px; height:38px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line); border-radius:50%; background:rgba(10,10,12,.55); backdrop-filter:blur(6px); color:var(--text); cursor:pointer; opacity:0; transition:opacity .25s, border-color .2s, color .2s; }
+.stage:hover .nav-arrow{ opacity:1; }
+.stage .nav-arrow:hover{ border-color:var(--accent); color:var(--accent); }
+.stage .nav-prev{ left:12px; } .stage .nav-next{ right:12px; }
+.stage .nav-arrow svg{ width:18px; height:18px; }
+@media (hover:none){ .stage .nav-arrow, .stage .expand{ opacity:.85; } }
+
+/* Лайтбокс — увеличение по клику */
+.lightbox{ position:fixed; inset:0; z-index:200; background:rgba(6,6,8,.9); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:5vw; opacity:0; pointer-events:none; transition:opacity .3s ease; }
+.lightbox.open{ opacity:1; pointer-events:auto; }
+.lightbox .lb-inner{ position:relative; transform:scale(.92); transition:transform .35s cubic-bezier(.16,1,.3,1); border:1px solid var(--line-strong); border-radius:14px; overflow:hidden; background:var(--panel); box-shadow:0 30px 90px -20px rgba(0,0,0,.85); }
+.lightbox.open .lb-inner{ transform:scale(1); }
+.lightbox img, .lightbox video{ display:block; max-width:90vw; max-height:86vh; }
+.lb-close{ position:fixed; top:20px; right:24px; z-index:201; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line-strong); border-radius:10px; background:rgba(10,10,12,.6); color:var(--text); cursor:pointer; transition:.2s; }
+.lb-close:hover{ border-color:var(--accent); color:var(--accent); }
+.lb-close svg{ width:20px; height:20px; }
+
 /* Плавный zoom фото при наведении (в рамках, overflow:hidden обрезает) */
 .stage img, .about-photo img, .hero-frame img{ transition:transform .65s cubic-bezier(.16,1,.3,1); }
 .stage:hover img, .about-photo:hover img, .hero-frame:hover img{ transform:scale(1.07); }
@@ -854,26 +893,122 @@ function spawnShape(x, y){
 }
 
 addEventListener('click', (e) => {
-  /* не мешаем кликам по ссылкам, кнопкам и меню */
-  if (e.target.closest('a, button')) return;
+  /* не мешаем кликам по ссылкам, кнопкам, галереям, лайтбоксу и аудио */
+  if (e.target.closest('a, button, .stage, .lightbox, audio')) return;
   spawnShape(e.clientX, e.clientY);
 });
 
-/* ---------- Галереи работ: переключение медиа по миниатюрам ---------- */
+/* ---------- Лайтбокс (увеличение медиа по клику) ---------- */
+const lightbox = (function(){
+  const box = document.createElement('div'); box.className = 'lightbox';
+  const inner = document.createElement('div'); inner.className = 'lb-inner';
+  const close = document.createElement('button'); close.className = 'lb-close'; close.type = 'button'; close.setAttribute('aria-label','Закрыть');
+  close.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  box.appendChild(inner); box.appendChild(close); document.body.appendChild(box);
+  const hide = () => { box.classList.remove('open'); setTimeout(() => { inner.innerHTML = ''; }, 320); };
+  close.addEventListener('click', hide);
+  box.addEventListener('click', (e) => { if (e.target === box) hide(); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+  return {
+    open(item){
+      if (!item) return;
+      inner.innerHTML = '';
+      let el;
+      if (item.type === 'video'){
+        el = document.createElement('video');
+        el.src = item.src; el.controls = true; el.autoplay = true; el.playsInline = true;
+        if (item.mode !== 'controls') el.loop = true;
+      } else {
+        el = document.createElement('img'); el.src = item.src; el.alt = '';
+      }
+      inner.appendChild(el);
+      box.classList.add('open');
+    }
+  };
+})();
+
+/* ---------- Галереи работ: плавное переключение, стрелки, увеличение ---------- */
 document.querySelectorAll('.work-media[data-gallery]').forEach(g => {
   const stage = g.querySelector('.stage');
   const thumbs = [...g.querySelectorAll('.thumb')];
-  const render = (t) => {
-    thumbs.forEach(x => x.classList.toggle('active', x === t));
-    const { type, src, badge, mode } = t.dataset;
+  const badgeEl = stage.querySelector('.badge');
+  let current = null;
+
+  const buildLayer = (type, src, mode) => {
+    let el;
     if (type === 'video'){
-      const attrs = mode === 'controls' ? 'controls preload="metadata"' : 'autoplay muted loop playsinline';
-      stage.innerHTML = '<span class="badge">' + (badge || 'VIDEO') + '</span><video ' + attrs + ' src="' + src + '"></video>';
+      el = document.createElement('video');
+      el.src = src; el.playsInline = true;
+      if (mode === 'controls'){ el.controls = true; el.preload = 'metadata'; }
+      else { el.autoplay = true; el.muted = true; el.loop = true; }
     } else {
-      stage.innerHTML = '<span class="badge">' + (badge || 'IMAGE') + '</span><img src="' + src + '" alt="">';
+      el = document.createElement('img'); el.src = src; el.alt = '';
+    }
+    el.className = 'media-layer';
+    return el;
+  };
+
+  const setMedia = (type, src, badge, mode, animate) => {
+    current = { type, src, mode, badge: badge || (type === 'video' ? 'VIDEO' : 'IMAGE') };
+    if (badgeEl) badgeEl.textContent = current.badge;
+    const layer = buildLayer(type, src, mode);
+    stage.appendChild(layer);
+    const prev = [...stage.querySelectorAll('.media-layer')].filter(el => el !== layer);
+    if (animate){
+      void layer.offsetWidth;            /* форс-reflow, чтобы transition сработал (надёжнее rAF) */
+      layer.classList.add('show');
+      prev.forEach(p => { p.classList.remove('show'); setTimeout(() => p.remove(), 500); });
+    } else {
+      layer.classList.add('show');
+      prev.forEach(p => p.remove());
     }
   };
-  thumbs.forEach(t => t.addEventListener('click', () => render(t)));
+
+  const render = (t, animate) => {
+    thumbs.forEach(x => x.classList.toggle('active', x === t));
+    setMedia(t.dataset.type, t.dataset.src, t.dataset.badge, t.dataset.mode, animate);
+  };
+
+  /* убираем исходное «жёсткое» медиа — перестроим через слои */
+  const initMedia = stage.querySelector('img:not(.media-layer), video:not(.media-layer)');
+  if (initMedia) initMedia.remove();
+
+  const first = thumbs.find(t => t.classList.contains('active')) || thumbs[0];
+
+  /* кнопка увеличения */
+  const expand = document.createElement('button');
+  expand.className = 'expand'; expand.type = 'button'; expand.setAttribute('aria-label','Увеличить');
+  expand.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+  stage.appendChild(expand);
+  expand.addEventListener('click', (e) => { e.stopPropagation(); lightbox.open(current); });
+
+  /* стрелки перелистывания */
+  if (thumbs.length > 1){
+    const mk = (cls, path, dir) => {
+      const b = document.createElement('button');
+      b.className = 'nav-arrow ' + cls; b.type = 'button';
+      b.setAttribute('aria-label', dir > 0 ? 'Следующее' : 'Предыдущее');
+      b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">' + path + '</svg>';
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const i = thumbs.findIndex(t => t.classList.contains('active'));
+        const ni = (i + dir + thumbs.length) % thumbs.length;
+        render(thumbs[ni], true);
+      });
+      stage.appendChild(b);
+    };
+    mk('nav-prev', '<path d="M15 18l-6-6 6-6"/>', -1);
+    mk('nav-next', '<path d="M9 18l6-6-6-6"/>', 1);
+  }
+
+  /* клик по картинке — увеличение (у видео для этого есть кнопка, чтобы не мешать управлению) */
+  stage.addEventListener('click', (e) => {
+    if (e.target.closest('.expand, .nav-arrow')) return;
+    if (current && current.type === 'img') lightbox.open(current);
+  });
+
+  render(first, false);
+  thumbs.forEach(t => t.addEventListener('click', () => render(t, true)));
 });
 
 /* ---------- Аудио-визуализация: эквалайзер + пульс в ритм ---------- */
