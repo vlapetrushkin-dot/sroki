@@ -1,0 +1,242 @@
+/* ==========================================================================
+   HERO — первый экран. Фоновый мотив: чертёжная сетка, из которой
+   собираются блоки. Тот же мотив станет основой для дисциплины Building.
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding-top: calc(var(--h-header) + var(--sp-7));
+  padding-bottom: var(--sp-8);
+  overflow: hidden;
+}
+
+/* --- Фон ------------------------------------------------------------------ */
+
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Сетка, растворяющаяся к краям. */
+.hero__grid {
+  position: absolute;
+  inset: -1px;
+  background-image:
+    linear-gradient(to right, var(--c-line) var(--bw), transparent var(--bw)),
+    linear-gradient(to bottom, var(--c-line) var(--bw), transparent var(--bw));
+  background-size: var(--grid-cell) var(--grid-cell);
+  -webkit-mask-image: radial-gradient(120% 90% at 22% 32%, #000 0%, transparent 72%);
+          mask-image: radial-gradient(120% 90% at 22% 32%, #000 0%, transparent 72%);
+}
+
+/* Несколько «воксельных» блоков — деталь, которая даёт объём.
+   На узких экранах им негде встать, не наехав на текст, — прячем. */
+.hero__blocks {
+  display: none;
+}
+
+@media (min-width: 62rem) {
+  .hero__blocks {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+}
+
+.hero__block {
+  position: absolute;
+  border: var(--bw) solid var(--c-line-strong);
+  border-radius: 2px;
+  animation: block-float 9s var(--e-inout) infinite;
+}
+
+.hero__block:nth-child(1) {
+  width: calc(var(--grid-cell) * 2);
+  height: calc(var(--grid-cell) * 2);
+  top: 18%;
+  right: 12%;
+  animation-delay: 0s;
+}
+
+.hero__block:nth-child(2) {
+  width: var(--grid-cell);
+  height: var(--grid-cell);
+  top: 34%;
+  right: 26%;
+  border-color: var(--c-accent-text);
+  animation-delay: -3s;
+}
+
+.hero__block:nth-child(3) {
+  width: calc(var(--grid-cell) * 3);
+  height: var(--grid-cell);
+  bottom: 22%;
+  right: 18%;
+  animation-delay: -6s;
+}
+
+.hero__block:nth-child(4) {
+  width: var(--grid-cell);
+  height: calc(var(--grid-cell) * 2);
+  bottom: 34%;
+  right: 38%;
+  animation-delay: -4.5s;
+}
+
+@keyframes block-float {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.5; }
+  50%      { transform: translate3d(0, -10px, 0); opacity: 1; }
+}
+
+/* --- Контент -------------------------------------------------------------- */
+
+/* Колонка внутри .container: ограничена по ширине, но прижата влево —
+   поэтому max-width живёт здесь, а не на самом контейнере. */
+.hero__inner {
+  position: relative;
+  z-index: var(--z-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+  max-width: 46rem;
+}
+
+.hero__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.hero__title {
+  text-wrap: balance;
+}
+
+.hero__sub {
+  font-size: var(--fs-lg);
+  line-height: var(--lh-snug);
+  color: var(--c-text-dim);
+  max-width: 44ch;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+/* --- Цифры ---------------------------------------------------------------- */
+
+.hero__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--sp-4);
+  padding-top: var(--sp-5);
+  border-top: var(--bw) solid var(--c-line);
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.hero__stat-value {
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  letter-spacing: var(--ls-tight);
+  line-height: 1;
+}
+
+.hero__stat-label {
+  font-size: var(--fs-xs);
+  color: var(--c-text-mute);
+}
+
+/* На узком экране в два столбца третья цифра висит одна — строим списком. */
+@media (max-width: 30rem) {
+  .hero__stats {
+    grid-template-columns: 1fr;
+    gap: var(--sp-3);
+  }
+
+  .hero__stat {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--sp-3);
+  }
+
+  .hero__stat-value {
+    min-width: 2.75rem;
+  }
+}
+
+/* --- Второе направление: приглушённая строка ------------------------------ */
+
+.hero__also {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-xs);
+  color: var(--c-text-mute);
+}
+
+.hero__also-stack {
+  font-family: var(--f-mono);
+  color: var(--c-text-dim);
+}
+
+/* --- Плашка --------------------------------------------------------------- */
+
+.hero__plate {
+  max-width: 26rem;
+}
+
+/* --- Появление ------------------------------------------------------------ */
+
+.hero [data-enter] {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: hero-enter var(--t-slow) var(--e-out) forwards;
+}
+
+.hero [data-enter="1"] { animation-delay: 60ms; }
+.hero [data-enter="2"] { animation-delay: 140ms; }
+.hero [data-enter="3"] { animation-delay: 220ms; }
+.hero [data-enter="4"] { animation-delay: 300ms; }
+.hero [data-enter="5"] { animation-delay: 380ms; }
+.hero [data-enter="6"] { animation-delay: 460ms; }
+
+@keyframes hero-enter {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero [data-enter] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* На десктопе шаг меньше, а не больше: иначе семь блоков не помещаются
+   в первый экран ноутбука и плашка уезжает за сгиб. */
+@media (min-width: 62rem) {
+  .hero {
+    padding-top: calc(var(--h-header) + var(--sp-5));
+    padding-bottom: var(--sp-6);
+  }
+
+  .hero__inner {
+    gap: var(--sp-5);
+  }
+
+  .hero__title {
+    margin-bottom: var(--sp-1);
+  }
+}

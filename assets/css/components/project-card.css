@@ -1,0 +1,250 @@
+/* ==========================================================================
+   PROJECT-CARD — карточка работы.
+   Обложка + подпись. Наследует геометрию skill-place, но кликабельна целиком.
+   ========================================================================== */
+
+.project-card {
+  position: relative;   /* опора для псевдоэлементов оформления групп */
+  display: flex;
+  flex-direction: column;
+  background-color: var(--c-bg-elev);
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: border-color var(--t-med) var(--e-out),
+              transform var(--t-med) var(--e-out);
+}
+
+.project-card:hover {
+  border-color: var(--c-line-strong);
+  transform: translateY(-2px);
+}
+
+/* Скрытая фильтром карточка убирается из потока и из таб-порядка. */
+.project-card[hidden] {
+  display: none;
+}
+
+/* --- Обложка -------------------------------------------------------------- */
+
+.project-card__media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--c-bg-sunken);
+  border: 0;
+  border-bottom: var(--bw) solid var(--c-line);
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.project-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--t-slow) var(--e-out),
+              opacity var(--t-med) var(--e-out);
+}
+
+.project-card:hover .project-card__img {
+  transform: scale(1.03);
+}
+
+/* Затемнение снизу, чтобы значки читались на любой картинке. */
+.project-card__media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(8, 9, 10, 0.65), transparent);
+  opacity: 0;
+  transition: opacity var(--t-med) var(--e-out);
+}
+
+.project-card:hover .project-card__media::after {
+  opacity: 1;
+}
+
+/* --- Значки поверх обложки ------------------------------------------------ */
+
+.project-card__flag {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-3);
+  background-color: color-mix(in srgb, var(--c-bg-sunken) 82%, transparent);
+  backdrop-filter: blur(6px);
+  border: var(--bw) solid var(--c-line-strong);
+  border-radius: var(--r-full);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text);
+}
+
+.project-card__flag--count {
+  right: var(--sp-3);
+  bottom: var(--sp-3);
+}
+
+.project-card__flag--type {
+  left: var(--sp-3);
+  bottom: var(--sp-3);
+}
+
+.project-card__flag svg {
+  width: 11px;
+  height: 11px;
+  fill: currentColor;
+}
+
+/* Кнопка воспроизведения по центру видео-обложки. */
+.project-card__play {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--r-full);
+  background-color: color-mix(in srgb, var(--c-bg-sunken) 70%, transparent);
+  backdrop-filter: blur(6px);
+  border: var(--bw) solid var(--c-line-strong);
+  transition: background-color var(--t-med) var(--e-out),
+              border-color var(--t-med) var(--e-out);
+}
+
+.project-card:hover .project-card__play {
+  background-color: var(--c-accent);
+  border-color: transparent;
+}
+
+.project-card__play svg {
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+  fill: var(--c-text);
+  transition: fill var(--t-med) var(--e-out);
+}
+
+.project-card:hover .project-card__play svg {
+  fill: var(--c-accent-ink);
+}
+
+/* --- Текст ---------------------------------------------------------------- */
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-5);
+  flex: 1;
+}
+
+.project-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.project-card__title {
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-snug);
+}
+
+.project-card__year {
+  flex-shrink: 0;
+}
+
+/* Роль — главное в карточке: что именно сделано руками. */
+.project-card__role {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--c-accent-text);
+}
+
+.project-card__desc {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-dim);
+  flex: 1;
+}
+
+.project-card__tags {
+  padding-top: var(--sp-3);
+  margin-top: auto;
+}
+
+.project-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  align-self: flex-start;
+  font-size: var(--fs-xs);
+}
+
+/* --- Панель с аудио ------------------------------------------------------- */
+
+.project-card__listen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-3) 0 0;
+  border: 0;
+  border-top: var(--bw) solid var(--c-line);
+  margin-top: var(--sp-3);
+  background: none;
+  color: var(--c-text);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+}
+
+.project-card__listen-chevron {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.6;
+  transition: transform var(--t-med) var(--e-out);
+}
+
+.project-card__listen[aria-expanded="true"] .project-card__listen-chevron {
+  transform: rotate(180deg);
+}
+
+/* Раскрытие через grid-rows: анимируется, в отличие от height:auto. */
+.project-card__tracks {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--t-med) var(--e-out);
+}
+
+.project-card__tracks.is-open {
+  grid-template-rows: 1fr;
+}
+
+.project-card__tracks-inner {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.project-card__tracks.is-open .project-card__tracks-inner {
+  padding-top: var(--sp-3);
+}

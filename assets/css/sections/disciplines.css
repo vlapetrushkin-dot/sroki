@@ -1,0 +1,39 @@
+/* ==========================================================================
+   DISCIPLINES — сетка из девяти мастерских.
+   ========================================================================== */
+
+.disciplines__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+}
+
+@media (min-width: 40rem) {
+  .disciplines__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 62rem) {
+  .disciplines__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-5);
+  }
+}
+
+/* Строка-вывод под сеткой: то, ради чего перечислялись девять пунктов. */
+.disciplines__note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-5);
+  border-top: var(--bw) solid var(--c-line);
+  font-size: var(--fs-sm);
+  color: var(--c-text-dim);
+}
+
+.disciplines__note-mark {
+  flex-shrink: 0;
+  color: var(--c-accent-text);
+}

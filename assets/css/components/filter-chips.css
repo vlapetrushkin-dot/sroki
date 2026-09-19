@@ -1,0 +1,69 @@
+/* ==========================================================================
+   FILTER-CHIPS — фильтр работ по дисциплинам.
+   Чипы строятся по данным: показываются только те, где есть работы.
+   ========================================================================== */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-6);
+}
+
+/* Обёртка чипов: display:contents, чтобы кнопки попадали прямо во флекс
+   .filters. Иначе перерисовка чипов затирала бы счётчик рядом. */
+.filters__group {
+  display: contents;
+}
+
+.filters__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-full);
+  background: none;
+  font-size: var(--fs-xs);
+  color: var(--c-text-dim);
+  cursor: pointer;
+  transition: border-color var(--t-fast) var(--e-out),
+              color var(--t-fast) var(--e-out),
+              background-color var(--t-fast) var(--e-out);
+}
+
+.filters__chip:hover {
+  border-color: var(--c-line-strong);
+  color: var(--c-text);
+}
+
+.filters__chip[aria-pressed="true"] {
+  background-color: var(--c-accent);
+  border-color: transparent;
+  color: var(--c-accent-ink);
+}
+
+/* Счётчик работ в категории — цифра рядом с названием. */
+.filters__count {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  opacity: 0.6;
+}
+
+/* Итог справа: «показано N из M». */
+.filters__result {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-text-mute);
+}
+
+@media (max-width: 40rem) {
+  .filters__result {
+    margin-left: 0;
+    width: 100%;
+  }
+}

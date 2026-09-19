@@ -1,0 +1,189 @@
+/* ==========================================================================
+   LIGHTBOX — просмотр работы: галерея картинок и видео.
+   ========================================================================== */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  flex-direction: column;
+  background-color: color-mix(in srgb, var(--c-bg-sunken) 94%, transparent);
+  backdrop-filter: blur(16px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--t-med) var(--e-out),
+              visibility var(--t-med) linear;
+}
+
+.lightbox.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- Шапка ---------------------------------------------------------------- */
+
+.lightbox__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--gutter);
+  border-bottom: var(--bw) solid var(--c-line);
+  flex-shrink: 0;
+}
+
+.lightbox__title {
+  font-size: var(--fs-base);
+  font-weight: 500;
+  letter-spacing: var(--ls-tight);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lightbox__counter {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.lightbox__close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-md);
+  color: var(--c-text-dim);
+  transition: border-color var(--t-fast) var(--e-out),
+              color var(--t-fast) var(--e-out);
+}
+
+.lightbox__close:hover {
+  border-color: var(--c-text);
+  color: var(--c-text);
+}
+
+.lightbox__close svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+}
+
+/* --- Сцена ---------------------------------------------------------------- */
+
+.lightbox__stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4) var(--gutter);
+  min-height: 0;
+}
+
+/* Кадр лежит в своём слое: при перелистывании старый и новый существуют
+   одновременно, поэтому переход получается плавным, а не рывком. */
+.lightbox__slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4) var(--gutter);
+  transition: opacity var(--t-med) var(--e-out),
+              transform var(--t-med) var(--e-out);
+}
+
+/* Стартовое и конечное положения. Знак сдвига ставит JS через --shift:
+   вперёд кадр приезжает справа, назад — слева. */
+.lightbox__slide--enter,
+.lightbox__slide--leave {
+  opacity: 0;
+  transform: translateX(var(--shift, 0px));
+}
+
+.lightbox__media {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--r-md);
+  border: var(--bw) solid var(--c-line);
+  object-fit: contain;
+}
+
+/* --- Стрелки -------------------------------------------------------------- */
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-full);
+  background-color: color-mix(in srgb, var(--c-bg-elev) 80%, transparent);
+  border: var(--bw) solid var(--c-line-strong);
+  color: var(--c-text);
+  transition: background-color var(--t-fast) var(--e-out),
+              border-color var(--t-fast) var(--e-out);
+}
+
+.lightbox__nav:hover {
+  background-color: var(--c-accent);
+  border-color: transparent;
+  color: var(--c-accent-ink);
+}
+
+.lightbox__nav svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  fill: none;
+}
+
+.lightbox__nav--prev { left: var(--sp-3); }
+.lightbox__nav--next { right: var(--sp-3); }
+
+.lightbox__nav[hidden] {
+  display: none;
+}
+
+/* --- Подпись -------------------------------------------------------------- */
+
+.lightbox__foot {
+  flex-shrink: 0;
+  padding: var(--sp-4) var(--gutter) var(--sp-5);
+  border-top: var(--bw) solid var(--c-line);
+}
+
+.lightbox__foot-inner {
+  max-width: var(--w-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.lightbox__role {
+  font-size: var(--fs-xs);
+  color: var(--c-accent-text);
+}
+
+.lightbox__desc {
+  font-size: var(--fs-sm);
+  color: var(--c-text-dim);
+}
+
+body.is-lightbox-open {
+  overflow: hidden;
+}
+
+@media (min-width: 62rem) {
+  .lightbox__nav--prev { left: var(--sp-6); }
+  .lightbox__nav--next { right: var(--sp-6); }
+}

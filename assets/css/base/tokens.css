@@ -1,0 +1,122 @@
+/* ==========================================================================
+   ТОКЕНЫ — единственное место, где живут цвета, шрифты, ритм и тайминги.
+   Тёмная тема основная, светлая переопределяет только цвета.
+   ========================================================================== */
+
+:root {
+  /* --- Палитра: тёмная тема ---------------------------------------------- */
+  --c-bg:           #0b0c0e;
+  --c-bg-elev:      #131519;
+  --c-bg-sunken:    #08090a;
+  --c-line:         rgba(244, 245, 243, 0.1);
+  --c-line-strong:  rgba(244, 245, 243, 0.22);
+  --c-text:         #f4f5f3;
+  --c-text-dim:     rgba(244, 245, 243, 0.66);
+  --c-text-mute:    rgba(244, 245, 243, 0.42);
+
+  /* Акцент. --c-accent — заливки, --c-accent-text — акцент в тексте,
+     --c-accent-ink — то, что лежит поверх заливки. */
+  --c-accent:       #b8ff3c;
+  --c-accent-text:  #b8ff3c;
+  --c-accent-ink:   #0b0c0e;
+  --c-accent-soft:  rgba(184, 255, 60, 0.14);
+
+  /* --- Типографика ------------------------------------------------------- */
+  --f-sans: "Space Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+
+  --fs-mono:  0.6875rem;
+  --fs-xs:    0.8125rem;
+  --fs-sm:    0.9375rem;
+  --fs-base:  clamp(1rem, 0.96rem + 0.18vw, 1.0625rem);
+  --fs-lg:    clamp(1.125rem, 1.05rem + 0.38vw, 1.375rem);
+  --fs-xl:    clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --fs-2xl:   clamp(2rem, 1.6rem + 2.2vw, 3.25rem);
+  --fs-3xl:   clamp(2.4rem, 1.7rem + 4.4vw, 5rem);
+
+  --lh-tight: 1.04;
+  --lh-snug:  1.25;
+  --lh-base:  1.6;
+  --ls-tight: -0.03em;
+  --ls-wide:  0.16em;
+
+  /* --- Ритм: шаг 8px ----------------------------------------------------- */
+  --sp-1: 0.25rem;  /*  4 */
+  --sp-2: 0.5rem;   /*  8 */
+  --sp-3: 0.75rem;  /* 12 */
+  --sp-4: 1rem;     /* 16 */
+  --sp-5: 1.5rem;   /* 24 */
+  --sp-6: 2rem;     /* 32 */
+  --sp-7: 3rem;     /* 48 */
+  --sp-8: 4rem;     /* 64 */
+  --sp-9: 6rem;     /* 96 */
+  --sp-10: 8rem;    /* 128 */
+
+  /* --- Геометрия --------------------------------------------------------- */
+  --bw:       1px;
+  --r-sm:     4px;
+  --r-md:     8px;
+  --r-lg:     14px;
+  --r-full:   999px;
+  --grid-cell: 32px;          /* шаг декоративной сетки */
+
+  --w-max:    1200px;
+  --w-text:   62ch;
+  --gutter:   var(--sp-4);
+  --h-header: 64px;
+
+  /* --- Движение ---------------------------------------------------------- */
+  --t-fast: 160ms;
+  --t-med:  280ms;
+  --t-slow: 520ms;
+  --e-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --e-inout: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* --- Слои ------------------------------------------------------------- */
+  --z-base:    1;
+  --z-sticky:  50;
+  --z-header:  100;
+  --z-menu:    200;
+  --z-overlay: 300;
+}
+
+@media (min-width: 48rem) {
+  :root {
+    --gutter: var(--sp-6);
+    --h-header: 72px;
+  }
+}
+
+/* --- Палитра: светлая тема ------------------------------------------------ */
+:root[data-theme="light"] {
+  --c-bg:           #f4f5f3;
+  --c-bg-elev:      #ffffff;
+  --c-bg-sunken:    #ebede8;
+  --c-line:         rgba(11, 12, 14, 0.12);
+  --c-line-strong:  rgba(11, 12, 14, 0.26);
+  --c-text:         #0b0c0e;
+  --c-text-dim:     rgba(11, 12, 14, 0.66);
+  --c-text-mute:    rgba(11, 12, 14, 0.45);
+
+  /* Лайм читается только как заливка, поэтому акцент-в-тексте затемнён. */
+  --c-accent:       #b8ff3c;
+  --c-accent-text:  #3d6300;
+  --c-accent-ink:   #0b0c0e;
+  --c-accent-soft:  rgba(61, 99, 0, 0.1);
+}
+
+/* Если JS не отработал — уважаем системную настройку. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --c-bg:           #f4f5f3;
+    --c-bg-elev:      #ffffff;
+    --c-bg-sunken:    #ebede8;
+    --c-line:         rgba(11, 12, 14, 0.12);
+    --c-line-strong:  rgba(11, 12, 14, 0.26);
+    --c-text:         #0b0c0e;
+    --c-text-dim:     rgba(11, 12, 14, 0.66);
+    --c-text-mute:    rgba(11, 12, 14, 0.45);
+    --c-accent-text:  #3d6300;
+    --c-accent-soft:  rgba(61, 99, 0, 0.1);
+  }
+}

@@ -1,0 +1,10 @@
+/* --- BUILDING: блок встаёт на место ---------------------------------------- */
+
+.motif-building:hover .m-anim-place {
+  animation: mb-place 2.8s var(--e-inout) infinite;
+}
+
+@keyframes mb-place {
+  0%, 100% { transform: translateY(-6px); opacity: 0.5; }
+  45%, 65% { transform: translateY(0);    opacity: 1; }
+}

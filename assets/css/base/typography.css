@@ -1,0 +1,125 @@
+/* ==========================================================================
+   ТИПОГРАФИКА
+   ========================================================================== */
+
+body {
+  font-family: var(--f-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+}
+
+h1 { font-size: var(--fs-3xl); }
+h2 { font-size: var(--fs-2xl); }
+h3 { font-size: var(--fs-xl); line-height: var(--lh-snug); }
+h4 { font-size: var(--fs-lg); line-height: var(--lh-snug); }
+
+p {
+  max-width: var(--w-text);
+}
+
+strong {
+  font-weight: 500;
+  color: var(--c-text);
+}
+
+/* --- Утилиты -------------------------------------------------------------- */
+
+/* Моно-надпись капсом: подписи, номера секций, теги. */
+.u-label {
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--c-text-mute);
+}
+
+.u-mono {
+  font-family: var(--f-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.02em;
+}
+
+.u-accent {
+  color: var(--c-accent-text);
+}
+
+.u-dim {
+  color: var(--c-text-dim);
+}
+
+.u-lead {
+  font-size: var(--fs-lg);
+  line-height: var(--lh-snug);
+  color: var(--c-text-dim);
+}
+
+/* Появление при прокрутке. До reveal.js элемент видим — если скрипт
+   не отработает, контент не пропадёт. */
+[data-reveal] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity var(--t-slow) var(--e-out),
+                transform var(--t-slow) var(--e-out);
+  }
+
+  .js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Скрыто визуально, но доступно скринридеру. */
+.u-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Подчёркивание, растущее от левого края. */
+.u-link {
+  position: relative;
+  color: var(--c-text-dim);
+  transition: color var(--t-fast) var(--e-out);
+}
+
+.u-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: var(--c-accent-text);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-med) var(--e-out);
+}
+
+.u-link:hover {
+  color: var(--c-text);
+}
+
+.u-link:hover::after {
+  transform: scaleX(1);
+}

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Смените домен — поправьте и эту строку.
+Sitemap: https://vlapetrushkin-dot.github.io/sroki/sitemap.xml

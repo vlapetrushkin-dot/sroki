@@ -1,0 +1,21 @@
+/* --- RIG: сустав ведёт конечность ------------------------------------------ */
+
+.motif-rig:hover .m-anim-limb {
+  transform-box: view-box;
+  transform-origin: 80px 44px;   /* плечевой сустав */
+  animation: mr-limb 3s var(--e-inout) infinite;
+}
+
+@keyframes mr-limb {
+  0%, 100% { transform: rotate(-9deg); }
+  50%      { transform: rotate(9deg); }
+}
+
+.motif-rig:hover .m-anim-joint {
+  animation: mr-joint 3s var(--e-inout) infinite;
+}
+
+@keyframes mr-joint {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}

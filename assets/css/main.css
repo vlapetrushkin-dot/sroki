@@ -1,0 +1,53 @@
+/* ==========================================================================
+   MAIN — единственная точка входа для стилей.
+   Порядок важен: токены → сброс → типографика → каркас → компоненты →
+   секции → мотивы.
+
+   На этапе разработки файлы подключены через @import — удобно править.
+   Перед деплоем (Этап 8) всё склеивается в один файл, чтобы убрать
+   цепочку запросов.
+   ========================================================================== */
+
+/* --- База ----------------------------------------------------------------- */
+@import url("base/tokens.css");
+@import url("base/reset.css");
+@import url("base/typography.css");
+
+/* --- Каркас --------------------------------------------------------------- */
+@import url("layout/container.css");
+@import url("layout/header.css");
+@import url("layout/footer.css");
+
+/* --- Компоненты ----------------------------------------------------------- */
+@import url("components/button.css");
+@import url("components/badge.css");
+@import url("components/theme-toggle.css");
+@import url("components/hire-plate.css");
+@import url("components/team-plate.css");
+@import url("components/skill-place.css");
+@import url("components/project-card.css");
+@import url("components/work-group.css");
+@import url("components/filter-chips.css");
+@import url("components/lightbox.css");
+@import url("components/audio-player.css");
+@import url("components/form.css");
+
+/* --- Секции --------------------------------------------------------------- */
+@import url("sections/hero.css");
+@import url("sections/disciplines.css");
+@import url("sections/works.css");
+@import url("sections/process.css");
+@import url("sections/about.css");
+@import url("sections/contact.css");
+
+/* --- Мотивы: по одному на дисциплину, только декор ------------------------ */
+@import url("motifs/_motif-base.css");
+@import url("motifs/building.css");
+@import url("motifs/modelling.css");
+@import url("motifs/scripting.css");
+@import url("motifs/animation.css");
+@import url("motifs/rig.css");
+@import url("motifs/vfx.css");
+@import url("motifs/sfx-music.css");
+@import url("motifs/gui.css");
+@import url("motifs/cutscene.css");

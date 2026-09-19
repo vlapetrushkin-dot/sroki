@@ -1,0 +1,23 @@
+/* --- CUTSCENE: камера идёт по траектории ----------------------------------- */
+
+.motif-cutscene:hover .m-anim-path {
+  stroke-dasharray: 4 4;
+  animation: mc-path 2.4s linear infinite;
+}
+
+@keyframes mc-path {
+  to { stroke-dashoffset: -16; }
+}
+
+/* Позиция камеры задаётся прямо в кейфреймах, а не через offset-path:
+   поддержка offset-path неровная и ломается о transform. Стартовая точка
+   продублирована в разметке атрибутом transform — она же нулевой кадр. */
+.motif-cutscene:hover .m-anim-cam {
+  animation: mc-cam 4s var(--e-inout) infinite;
+}
+
+@keyframes mc-cam {
+  0%, 6%    { transform: translate(40px, 64px); }
+  50%       { transform: translate(80px, 47px); }
+  94%, 100% { transform: translate(122px, 38px); }
+}

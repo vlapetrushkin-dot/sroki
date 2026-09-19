@@ -1,0 +1,19 @@
+/* --- SOUND & MUSIC: осциллограмма дышит ------------------------------------ */
+
+.motif-sfx-music:hover .m-anim-bar {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: msm-bar 1.4s var(--e-inout) infinite;
+}
+
+.motif-sfx-music:hover .m-anim-bar:nth-of-type(2) { animation-delay: 0.1s;  }
+.motif-sfx-music:hover .m-anim-bar:nth-of-type(3) { animation-delay: 0.2s;  }
+.motif-sfx-music:hover .m-anim-bar:nth-of-type(4) { animation-delay: 0.3s;  }
+.motif-sfx-music:hover .m-anim-bar:nth-of-type(5) { animation-delay: 0.22s; }
+.motif-sfx-music:hover .m-anim-bar:nth-of-type(6) { animation-delay: 0.14s; }
+.motif-sfx-music:hover .m-anim-bar:nth-of-type(7) { animation-delay: 0.06s; }
+
+@keyframes msm-bar {
+  0%, 100% { transform: scaleY(0.45); }
+  50%      { transform: scaleY(1); }
+}

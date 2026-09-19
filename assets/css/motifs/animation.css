@@ -1,0 +1,25 @@
+/* --- ANIMATION: кривая easing прочерчивается, ключи вспыхивают ------------- */
+
+.motif-animation:hover .m-anim-curve {
+  stroke-dasharray: 150;
+  stroke-dashoffset: 150;
+  animation: ma-draw 2.6s var(--e-inout) infinite;
+}
+
+@keyframes ma-draw {
+  0%       { stroke-dashoffset: 150; }
+  55%, 85% { stroke-dashoffset: 0; }
+  100%     { stroke-dashoffset: 150; }
+}
+
+.motif-animation:hover .m-anim-key {
+  animation: ma-key 2.6s var(--e-out) infinite;
+}
+
+.motif-animation:hover .m-anim-key:nth-of-type(2) { animation-delay: 0.3s; }
+.motif-animation:hover .m-anim-key:nth-of-type(3) { animation-delay: 0.6s; }
+
+@keyframes ma-key {
+  0%, 100% { opacity: 0.45; }
+  50%      { opacity: 1; }
+}

@@ -1,0 +1,92 @@
+/* ==========================================================================
+   SKILL-PLACE — каркас «мастерской».
+   Общий для всех девяти дисциплин: одна геометрия, один ритм, один hover.
+   Отличается только содержимое слота .skill-place__motif — см. css/motifs/.
+   ========================================================================== */
+
+.skill-place {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--c-bg-elev);
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-lg);
+  transition: border-color var(--t-med) var(--e-out),
+              transform var(--t-med) var(--e-out);
+}
+
+.skill-place:hover {
+  border-color: var(--c-line-strong);
+  transform: translateY(-2px);
+}
+
+/* --- Слот мотива ---------------------------------------------------------- */
+
+.skill-place__motif {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-bottom: var(--bw) solid var(--c-line);
+  background-color: var(--c-bg-sunken);
+}
+
+/* Та же чертёжная сетка, что в Hero, — она и связывает все девять мест. */
+.skill-place__motif::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--c-line) var(--bw), transparent var(--bw)),
+    linear-gradient(to bottom, var(--c-line) var(--bw), transparent var(--bw));
+  background-size: 16px 16px;
+  opacity: 0.6;
+}
+
+.skill-place__motif svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Текст ---------------------------------------------------------------- */
+
+.skill-place__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  flex: 1;
+}
+
+.skill-place__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+
+.skill-place__num {
+  flex-shrink: 0;
+  transition: color var(--t-med) var(--e-out);
+}
+
+.skill-place:hover .skill-place__num {
+  color: var(--c-accent-text);
+}
+
+.skill-place__title {
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  letter-spacing: var(--ls-tight);
+}
+
+.skill-place__desc {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--c-text-dim);
+  flex: 1;
+}
+
+.skill-place__chips {
+  margin-top: auto;
+  padding-top: var(--sp-2);
+}

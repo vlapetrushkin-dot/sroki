@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Сайт одностраничный, поэтому в карте один адрес.
+  Смените домен — поправьте <loc>: с чужим адресом карта бесполезна,
+  поисковик её проигнорирует.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://vlapetrushkin-dot.github.io/sroki/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

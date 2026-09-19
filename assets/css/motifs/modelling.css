@@ -1,0 +1,23 @@
+/* --- MODELLING: каркас медленно поворачивается ----------------------------- */
+
+.motif-modelling:hover .m-anim-spin {
+  transform-box: view-box;
+  transform-origin: 80px 52px;   /* центральная вершина каркаса */
+  animation: mm-spin 9s linear infinite;
+}
+
+/* Не полный оборот, а покачивание: плоский wireframe при полном
+   вращении читается как ошибка, а не как объём. */
+@keyframes mm-spin {
+  0%, 100% { transform: rotate(-7deg) scaleX(0.96); }
+  50%      { transform: rotate(7deg)  scaleX(1); }
+}
+
+.motif-modelling:hover .m-anim-vertex {
+  animation: mm-vertex 2.2s var(--e-out) infinite;
+}
+
+@keyframes mm-vertex {
+  0%, 100% { r: 2.5; }
+  50%      { r: 4; }
+}

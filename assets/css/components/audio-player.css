@@ -1,0 +1,120 @@
+/* ==========================================================================
+   AUDIO-PLAYER — минимальный плеер для треков и звуков.
+
+   Нативный <audio controls> выглядит в каждом браузере по-своему и ломает
+   стиль, поэтому управление своё, а <audio> остаётся скрытым источником.
+   ========================================================================== */
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  background-color: var(--c-bg-sunken);
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-md);
+}
+
+.player__btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: var(--r-full);
+  border: var(--bw) solid var(--c-line-strong);
+  color: var(--c-text);
+  transition: background-color var(--t-fast) var(--e-out),
+              border-color var(--t-fast) var(--e-out),
+              color var(--t-fast) var(--e-out);
+}
+
+.player__btn:hover {
+  background-color: var(--c-accent);
+  border-color: transparent;
+  color: var(--c-accent-ink);
+}
+
+.player__btn svg {
+  width: 11px;
+  height: 11px;
+  fill: currentColor;
+}
+
+/* Показываем одну иконку — ту, что соответствует действию. */
+.player__icon--pause { display: none; }
+.player.is-playing .player__icon--play { display: none; }
+.player.is-playing .player__icon--pause { display: block; }
+
+.player__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.player__name {
+  font-size: var(--fs-xs);
+  color: var(--c-text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Дорожка — она же ползунок перемотки. */
+.player__track {
+  position: relative;
+  height: 4px;
+  border-radius: var(--r-full);
+  background-color: var(--c-line);
+  cursor: pointer;
+}
+
+.player__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: var(--r-full);
+  background-color: var(--c-accent-text);
+}
+
+.player__time {
+  flex-shrink: 0;
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  color: var(--c-text-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Обложка аудио-работы: статичная осциллограмма ------------------------ */
+
+.waveform {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0 var(--sp-6);
+}
+
+.waveform__bar {
+  width: 3px;
+  border-radius: var(--r-full);
+  background-color: var(--c-line-strong);
+  transition: background-color var(--t-med) var(--e-out);
+}
+
+.project-card:hover .waveform__bar {
+  background-color: var(--c-text-dim);
+}
+
+/* Центральные столбики акцентом — тот же приём, что в мотиве дисциплины. */
+.waveform__bar--accent {
+  background-color: var(--c-accent-text);
+}
+
+.project-card:hover .waveform__bar--accent {
+  background-color: var(--c-accent-text);
+}

@@ -1,0 +1,23 @@
+/* --- GUI: курсор доходит до кнопки, кнопка отзывается ---------------------- */
+
+.motif-gui:hover .m-anim-cursor {
+  animation: mg-cursor 3s var(--e-inout) infinite;
+}
+
+@keyframes mg-cursor {
+  0%       { transform: translate(10px, 8px); }
+  45%, 75% { transform: translate(0, 0); }
+  100%     { transform: translate(10px, 8px); }
+}
+
+.motif-gui:hover .m-anim-press {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: mg-press 3s var(--e-inout) infinite;
+}
+
+@keyframes mg-press {
+  0%, 40%  { opacity: 0.45; transform: scaleX(1); }
+  50%, 72% { opacity: 1;    transform: scaleX(1.04); }
+  85%, 100%{ opacity: 0.45; transform: scaleX(1); }
+}

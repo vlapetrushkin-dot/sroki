@@ -1,0 +1,78 @@
+/* ==========================================================================
+   ПЛАШКА РАБОТНИКА — «я как сотрудник».
+   Три размера: компакт (Hero), полная (About, этап 5), CTA (Contact, этап 7).
+   ========================================================================== */
+
+.hire-plate {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  background-color: var(--c-bg-elev);
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-lg);
+  transition: border-color var(--t-med) var(--e-out);
+}
+
+.hire-plate:hover {
+  border-color: var(--c-line-strong);
+}
+
+/* Монограмма вместо фото — заменится аватаром, когда будет файл. */
+.hire-plate__mark {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: var(--r-md);
+  background-color: var(--c-accent);
+  color: var(--c-accent-ink);
+  font-family: var(--f-mono);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.hire-plate__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.hire-plate__name {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.hire-plate__role {
+  font-size: var(--fs-xs);
+  color: var(--c-text-dim);
+}
+
+.hire-plate__cta {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Телеграм-ник моноширинным — читается как идентификатор. */
+.hire-plate__handle {
+  font-family: var(--f-mono);
+  font-size: var(--fs-xs);
+  color: var(--c-accent-text);
+}
+
+@media (max-width: 30rem) {
+  .hire-plate {
+    flex-wrap: wrap;
+  }
+
+  .hire-plate__cta {
+    margin-left: 0;
+    width: 100%;
+  }
+}

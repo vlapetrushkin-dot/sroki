@@ -1,0 +1,98 @@
+/* ==========================================================================
+   CONTACT — крупная плашка с Telegram и форма.
+   ========================================================================== */
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-6);
+}
+
+/* --- Плашка --------------------------------------------------------------- */
+
+.contact__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  padding: var(--sp-6);
+  background-color: var(--c-bg-elev);
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+/* Та же чертёжная сетка, что в Hero, — секции перекликаются. */
+.contact__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--c-line) var(--bw), transparent var(--bw)),
+    linear-gradient(to bottom, var(--c-line) var(--bw), transparent var(--bw));
+  background-size: var(--grid-cell) var(--grid-cell);
+  -webkit-mask-image: radial-gradient(90% 80% at 80% 15%, #000, transparent 70%);
+          mask-image: radial-gradient(90% 80% at 80% 15%, #000, transparent 70%);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.contact__card > * {
+  position: relative;
+}
+
+.contact__handle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-family: var(--f-mono);
+  font-size: var(--fs-xl);
+  letter-spacing: -0.02em;
+  color: var(--c-accent-text);
+  word-break: break-all;
+}
+
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.contact__copy-state {
+  font-size: var(--fs-xs);
+  color: var(--c-accent-text);
+  align-self: center;
+}
+
+.contact__copy-state[hidden] {
+  display: none;
+}
+
+.contact__lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-top: var(--sp-5);
+  border-top: var(--bw) solid var(--c-line);
+}
+
+.contact__line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  font-size: var(--fs-sm);
+  color: var(--c-text-dim);
+}
+
+.contact__line-mark {
+  flex-shrink: 0;
+  color: var(--c-accent-text);
+}
+
+@media (min-width: 62rem) {
+  .contact__grid {
+    grid-template-columns: 1fr 1.15fr;
+    gap: var(--sp-7);
+    align-items: start;
+  }
+}

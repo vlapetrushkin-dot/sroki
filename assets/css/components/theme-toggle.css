@@ -1,0 +1,61 @@
+/* ==========================================================================
+   ПЕРЕКЛЮЧАТЕЛИ — тема и язык. Общая геометрия, разное наполнение.
+   ========================================================================== */
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-md);
+  color: var(--c-text-dim);
+  transition: border-color var(--t-fast) var(--e-out),
+              color var(--t-fast) var(--e-out);
+}
+
+.theme-toggle:hover {
+  border-color: var(--c-line-strong);
+  color: var(--c-text);
+}
+
+.theme-toggle__icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Показываем ровно одну иконку — ту, что соответствует будущему состоянию. */
+:root:not([data-theme="light"]) .theme-toggle__icon--sun { display: none; }
+:root[data-theme="light"] .theme-toggle__icon--moon { display: none; }
+
+/* --- Язык: сегментированный переключатель --------------------------------- */
+
+.lang-switch {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 3px;
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-md);
+}
+
+.lang-switch__btn {
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--r-sm);
+  font-family: var(--f-mono);
+  font-size: var(--fs-mono);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--c-text-mute);
+  transition: background-color var(--t-fast) var(--e-out),
+              color var(--t-fast) var(--e-out);
+}
+
+.lang-switch__btn:hover {
+  color: var(--c-text);
+}
+
+.lang-switch__btn[aria-pressed="true"] {
+  background-color: var(--c-accent-soft);
+  color: var(--c-accent-text);
+}

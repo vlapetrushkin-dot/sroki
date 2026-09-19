@@ -1,0 +1,69 @@
+/* ==========================================================================
+   WORKS — сетка работ.
+   ========================================================================== */
+
+/* Полоса группы «Движение» тянется на 100vw, а 100vw шире содержимого на
+   ширину вертикального скроллбара — без clip это давало бы горизонтальную
+   прокрутку всей страницы. clip, в отличие от hidden, не создаёт скролл-
+   контейнер и не ломает якоря. */
+.works {
+  overflow-x: clip;
+}
+
+/* Где clip не поддерживается — полоса просто не выходит за контейнер. */
+@supports not (overflow: clip) {
+  .work-group--motion .work-group__bg {
+    left: 0;
+    right: 0;
+    width: auto;
+    transform: none;
+  }
+}
+
+/* Сетка живёт внутри подгруппы — их на странице несколько. */
+.works__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+}
+
+@media (min-width: 40rem) {
+  .works__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 62rem) {
+  .works__grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-5);
+  }
+}
+
+/* Заглушка на случай, если фильтр ничего не нашёл. */
+.works__empty {
+  padding: var(--sp-8) 0;
+  text-align: center;
+  color: var(--c-text-mute);
+}
+
+.works__empty[hidden] {
+  display: none;
+}
+
+/* Подпись под сеткой. */
+.works__note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-5);
+  border-top: var(--bw) solid var(--c-line);
+  font-size: var(--fs-sm);
+  color: var(--c-text-dim);
+}
+
+.works__note-mark {
+  flex-shrink: 0;
+  color: var(--c-accent-text);
+}

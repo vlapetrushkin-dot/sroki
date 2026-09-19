@@ -1,0 +1,92 @@
+/* ==========================================================================
+   КНОПКИ — primary (заливка акцентом), ghost (обводка), icon.
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-5);
+  border: var(--bw) solid transparent;
+  border-radius: var(--r-md);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--t-fast) var(--e-out),
+              border-color var(--t-fast) var(--e-out),
+              color var(--t-fast) var(--e-out),
+              transform var(--t-fast) var(--e-out);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn__icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+/* Стрелка, уезжающая вправо на hover. */
+.btn__arrow {
+  transition: transform var(--t-med) var(--e-out);
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(3px);
+}
+
+/* --- Варианты ------------------------------------------------------------- */
+
+.btn--primary {
+  background-color: var(--c-accent);
+  color: var(--c-accent-ink);
+}
+
+.btn--primary:hover {
+  background-color: color-mix(in srgb, var(--c-accent) 86%, var(--c-text));
+}
+
+.btn--ghost {
+  border-color: var(--c-line-strong);
+  color: var(--c-text);
+}
+
+.btn--ghost:hover {
+  border-color: var(--c-text);
+  background-color: var(--c-accent-soft);
+}
+
+.btn--quiet {
+  padding-inline: var(--sp-3);
+  color: var(--c-text-dim);
+}
+
+.btn--quiet:hover {
+  color: var(--c-text);
+  background-color: var(--c-accent-soft);
+}
+
+.btn--sm {
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--fs-xs);
+}
+
+.btn--lg {
+  padding: var(--sp-4) var(--sp-6);
+  font-size: var(--fs-base);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  pointer-events: none;
+}

@@ -1,0 +1,14 @@
+# Собранный CSS — артефакт сборки, пересоздаётся tools/build-css.ps1
+assets/css/main.build.css
+
+# Настройки локальной среды
+.claude/
+
+# Windows
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Python
+__pycache__/
+*.pyc
