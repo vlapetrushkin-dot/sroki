@@ -25,6 +25,11 @@
     window.App.form.init();
     window.App.reveal.init();
 
+    /* Сцены существуют только после отрисовки работ — отсюда и порядок. */
+    window.App.scene.init();
+    window.App.constellation.init();
+    window.App.magnetic.init();
+
     /* Год в подвале — чтобы не устаревал. */
     var year = document.querySelector("[data-year]");
     if (year) year.textContent = new Date().getFullYear();

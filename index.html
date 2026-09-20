@@ -51,6 +51,10 @@
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
 
+  <!-- Сетка точек за содержимым. hidden снимает constellation.js — только
+       там, где слой имеет смысл: при мыши и включённых анимациях. -->
+  <canvas class="constellation" data-constellation hidden aria-hidden="true"></canvas>
+
   <!-- =====================================================================
        ШАПКА
        ===================================================================== -->
@@ -165,14 +169,14 @@
         </p>
 
         <div class="hero__actions" data-enter="4">
-          <a class="btn btn--primary btn--lg" href="#works">
+          <a class="btn btn--primary btn--lg" href="#works" data-magnetic>
             <span data-i18n="hero.cta1">View work</span>
             <svg class="btn__icon btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M5 12h14M13 6l6 6-6 6"/>
             </svg>
           </a>
-          <a class="btn btn--ghost btn--lg" href="https://t.me/Krich_fran" target="_blank" rel="noopener" data-i18n="hero.cta2">
+          <a class="btn btn--ghost btn--lg" href="https://t.me/Krich_fran" target="_blank" rel="noopener" data-magnetic data-i18n="hero.cta2">
             Message on Telegram
           </a>
         </div>
@@ -857,7 +861,7 @@
             </div>
 
             <div class="form__foot">
-              <button class="btn btn--primary btn--lg" type="submit">
+              <button class="btn btn--primary btn--lg" type="submit" data-magnetic>
                 <span data-i18n="form.submit">Send via Telegram</span>
                 <svg class="btn__icon btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                      stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -950,6 +954,9 @@
   <script src="assets/js/modules/filters.js" defer></script>
   <script src="assets/js/modules/form.js" defer></script>
   <script src="assets/js/modules/reveal.js" defer></script>
+  <script src="assets/js/modules/scene.js" defer></script>
+  <script src="assets/js/modules/constellation.js" defer></script>
+  <script src="assets/js/modules/magnetic.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>

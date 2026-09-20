@@ -200,6 +200,40 @@ window.App.works = (function () {
     );
   }
 
+  /* Шапка группы: персонаж и выезжающая из-под него плашка.
+     Без персонажа остаётся обычный заголовок — сцена не обязательна. */
+  function headHtml(group) {
+    var ch = group.character;
+
+    var panel =
+      '<div class="scene__panel">' +
+        '<div class="scene__top">' +
+          '<span class="u-label">' + esc(group.num) + "</span>" +
+          '<span class="scene__rule" aria-hidden="true"></span>' +
+        "</div>" +
+        '<h3 class="scene__title">' + esc(loc(group.title)) + "</h3>" +
+        '<p class="scene__lead">' + esc(loc(group.lead)) + "</p>" +
+      "</div>";
+
+    if (!ch) {
+      return '<div class="work-group__head">' + panel + "</div>";
+    }
+
+    return (
+      '<div class="scene scene--' + esc(ch.side) + (ch.backlit ? " scene--backlit" : "") +
+        '" data-scene>' +
+        '<div class="scene__inner">' +
+          '<figure class="scene__char">' +
+            '<img src="assets/img/characters/' + esc(ch.file) +
+              '" alt="" loading="lazy" decoding="async"' +
+              (ch.w ? ' width="' + ch.w + '" height="' + ch.h + '"' : "") + ">" +
+          "</figure>" +
+          panel +
+        "</div>" +
+      "</div>"
+    );
+  }
+
   function groupHtml(group) {
     var subs = group.subs.map(function (sub) {
       var items = DATA.filter(function (p) { return p.cat === sub.cat; });
@@ -211,14 +245,7 @@ window.App.works = (function () {
     return (
       '<section class="work-group work-group--' + esc(group.id) + '" data-group="' + esc(group.id) + '">' +
         '<div class="work-group__bg" aria-hidden="true"></div>' +
-        '<div class="work-group__head">' +
-          '<div class="work-group__top">' +
-            '<span class="u-label">' + esc(group.num) + "</span>" +
-            '<span class="work-group__rule" aria-hidden="true"></span>' +
-          "</div>" +
-          '<h3 class="work-group__title">' + esc(loc(group.title)) + "</h3>" +
-          '<p class="work-group__lead">' + esc(loc(group.lead)) + "</p>" +
-        "</div>" +
+        headHtml(group) +
         subs +
       "</section>"
     );
@@ -284,6 +311,9 @@ window.App.works = (function () {
     host.innerHTML = GROUPS.map(groupHtml).join("");
     bind();
     applyFilter();
+
+    /* Сцены пересозданы — модуль прокрутки должен взять новые узлы. */
+    if (window.App.scene) window.App.scene.refresh();
   }
 
   function init() {

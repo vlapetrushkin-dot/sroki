@@ -12,12 +12,12 @@
   border-radius: var(--r-lg);
   overflow: hidden;
   transition: border-color var(--t-med) var(--e-out),
-              transform var(--t-med) var(--e-out);
+              transform var(--t-slow) var(--e-spring);
 }
 
 .project-card:hover {
   border-color: var(--c-line-strong);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 
 /* Скрытая фильтром карточка убирается из потока и из таб-порядка. */

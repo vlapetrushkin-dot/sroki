@@ -1,0 +1,207 @@
+/* ==========================================================================
+   SCENE — шапка группы работ: персонаж и выезжающая из-под него плашка.
+
+   Как читается эффект: персонаж лежит НАД плашкой по z-index, а плашка
+   заезжает под него отрицательным отступом. По мере прокрутки она
+   выдвигается вбок — получается, что текст вытаскивают из-за персонажа.
+
+   Прогресс прокрутки сцены приходит в переменной --p (0…1), её ставит
+   scene.js. По умолчанию здесь 1: если скрипт не отработает, плашка
+   просто видна на месте, а не спрятана навсегда.
+   ========================================================================== */
+
+.scene {
+  --p: 1;
+  --overlap: 84px;
+  --slide: 90px;
+
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--sp-7);
+}
+
+.scene__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  align-items: center;
+}
+
+/* --- Персонаж ------------------------------------------------------------- */
+
+.scene__char {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  justify-self: center;
+  /* Лёгкий параллакс: персонаж догоняет плашку, а не стоит намертво. */
+  transform: translateY(calc((1 - var(--p)) * 16px));
+  transition: transform var(--t-slow) var(--e-out);
+}
+
+.scene__char img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  /* Арты разной пропорции: без потолка по высоте узкий вертикальный
+     персонаж вырастал бы почти во весь экран и перевешивал текст. */
+  max-height: 440px;
+  /* Контровой свет акцентом — то, что связывает чужие арты со стилем
+     сайта. Тень мягкая и двойная: ближняя даёт контур, дальняя — ореол. */
+  filter:
+    drop-shadow(0 0 1px color-mix(in srgb, var(--c-accent) 55%, transparent))
+    drop-shadow(0 8px 26px color-mix(in srgb, var(--c-accent) 22%, transparent));
+}
+
+/* Монохромный арт на графите частично пропадает — даём ему подложку. */
+.scene--backlit .scene__char::before {
+  content: "";
+  position: absolute;
+  inset: 8% 6%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--c-text) 14%, transparent),
+    transparent
+  );
+}
+
+/* --- Плашка --------------------------------------------------------------- */
+
+.scene__panel {
+  position: relative;
+  z-index: 1;
+  padding: var(--sp-5);
+  background-color: var(--c-bg-elev);
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-lg);
+  opacity: clamp(0, calc(var(--p) * 1.35), 1);
+  transition: opacity var(--t-slow) var(--e-out),
+              transform var(--t-slow) var(--e-out);
+}
+
+.scene__top {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+}
+
+.scene__rule {
+  flex: 1;
+  height: var(--bw);
+  background-color: var(--c-line);
+}
+
+.scene__title {
+  font-size: var(--fs-xl);
+  font-weight: 500;
+  letter-spacing: var(--ls-tight);
+  margin-bottom: var(--sp-2);
+}
+
+.scene__lead {
+  font-size: var(--fs-sm);
+  color: var(--c-text-dim);
+  max-width: 52ch;
+}
+
+/* --- Мобильная раскладка -------------------------------------------------
+   Вбок выдвигать негде, поэтому плашка выезжает снизу вверх. */
+
+/* Ширина задаётся явно, а не выводится из содержимого: ленивая картинка
+   до загрузки не имеет размеров, и колонка схлопывалась бы в ноль. */
+.scene__char {
+  width: min(200px, 58%);
+}
+
+.scene__panel {
+  transform: translateY(calc((1 - var(--p)) * 24px));
+}
+
+/* --- Десктоп: чередование сторон ------------------------------------------ */
+
+@media (min-width: 52rem) {
+  .scene__inner {
+    grid-template-columns: minmax(180px, 300px) 1fr;
+    gap: 0;
+    align-items: end;
+  }
+
+  /* Персонаж прижимается к той стороне, где стоит плашка, — иначе между
+     ними появляется просвет и «выезд из-под» перестаёт читаться. */
+  .scene__char {
+    width: 100%;
+    justify-self: stretch;
+    align-self: end;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .scene--left .scene__char  { justify-content: flex-end; }
+  .scene--right .scene__char { justify-content: flex-start; }
+
+  .scene__panel {
+    padding-block: var(--sp-6);
+    margin-bottom: var(--sp-5);
+  }
+
+  /* Слева: персонаж в первой колонке, плашка выезжает вправо. */
+  .scene--left .scene__char  { grid-column: 1; grid-row: 1; }
+  .scene--left .scene__panel {
+    grid-column: 2;
+    grid-row: 1;
+    margin-left: calc(-1 * var(--overlap));
+    padding-left: calc(var(--overlap) + var(--sp-5));
+    transform: translateX(calc((var(--p) - 1) * var(--slide)));
+  }
+
+  /* Справа: колонки тоже меняются местами. Без этого персонаж попадал бы
+     в широкую колонку и растягивался во весь её размер. */
+  .scene--right .scene__inner {
+    grid-template-columns: 1fr minmax(180px, 300px);
+  }
+
+  .scene--right .scene__char  { grid-column: 2; grid-row: 1; }
+  .scene--right .scene__panel {
+    grid-column: 1;
+    grid-row: 1;
+    margin-right: calc(-1 * var(--overlap));
+    padding-right: calc(var(--overlap) + var(--sp-5));
+    text-align: right;
+    transform: translateX(calc((1 - var(--p)) * var(--slide)));
+  }
+
+  .scene--right .scene__top { flex-direction: row-reverse; }
+  .scene--right .scene__lead { margin-left: auto; }
+}
+
+@media (min-width: 62rem) {
+  .scene {
+    --overlap: 110px;
+    --slide: 120px;
+    margin-bottom: var(--sp-8);
+  }
+
+  .scene__inner {
+    grid-template-columns: minmax(240px, 360px) 1fr;
+  }
+
+  .scene--right .scene__inner {
+    grid-template-columns: 1fr minmax(240px, 360px);
+  }
+}
+
+/* Движение — украшение: при отключённых анимациях всё стоит на местах. */
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    --p: 1 !important;
+  }
+
+  .scene__char,
+  .scene__panel {
+    transform: none !important;
+  }
+}

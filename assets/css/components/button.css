@@ -18,10 +18,12 @@
   transition: background-color var(--t-fast) var(--e-out),
               border-color var(--t-fast) var(--e-out),
               color var(--t-fast) var(--e-out),
-              transform var(--t-fast) var(--e-out);
+              transform var(--t-med) var(--e-spring);
 }
 
-.btn:active {
+/* Магнитные кнопки двигает magnetic.js через inline-transform, поэтому
+   своего transform на :active у них быть не должно — он бы его затёр. */
+.btn:not([data-magnetic]):active {
   transform: translateY(1px);
 }
 

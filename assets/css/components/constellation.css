@@ -1,0 +1,48 @@
+/* ==========================================================================
+   CONSTELLATION — слой холста с сеткой точек.
+
+   Лежит под всем содержимым и не ловит события: это фон, а не элемент
+   интерфейса. Скрипт снимает hidden только там, где слой имеет смысл —
+   при мыши и включённых анимациях.
+   ========================================================================== */
+
+.constellation {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  animation: constellation-in 1.2s var(--e-out) 0.2s forwards;
+}
+
+.constellation[hidden] {
+  display: none;
+}
+
+@keyframes constellation-in {
+  to { opacity: 1; }
+}
+
+/* Содержимое должно лежать над холстом. */
+.header,
+main,
+.footer,
+.mobile-menu,
+.lightbox {
+  position: relative;
+  z-index: 1;
+}
+
+.header { z-index: var(--z-header); }
+.mobile-menu { z-index: var(--z-menu); }
+.lightbox { z-index: var(--z-overlay); }
+
+/* Hero прозрачен, чтобы сетка была видна сквозь него; остальные секции
+   лежат на фоне страницы и сетку приглушают — так она не мешает читать. */
+.section {
+  background-color: var(--c-bg);
+}
+
+.hero {
+  background-color: transparent;
+}

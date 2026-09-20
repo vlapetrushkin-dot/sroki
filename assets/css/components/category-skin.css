@@ -1,0 +1,237 @@
+/* ==========================================================================
+   CATEGORY-SKIN — своё оформление карточки для каждой из семи категорий.
+
+   Ключ — атрибут data-cat на карточке, он уже есть в разметке.
+
+   Что остаётся общим у всех семи (иначе сайт распадётся на семь разных):
+   палитра, линия 1px, шаг сетки 8px, типографика и правило «один акцент
+   на карточку». Различается только рисунок поверх этого каркаса.
+   ========================================================================== */
+
+/* ==========================================================================
+   БИЛДИНГ — чертёж: прямые углы, угловые засечки, размерная линия
+   ========================================================================== */
+
+.project-card[data-cat="building"] {
+  border-radius: var(--r-sm);
+}
+
+.project-card[data-cat="building"] .project-card__media,
+.project-card[data-cat="building"] .badge {
+  border-radius: 0;
+}
+
+.project-card[data-cat="building"]::before,
+.project-card[data-cat="building"]::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  width: 10px;
+  height: 10px;
+  border-color: var(--c-accent-text);
+  opacity: 0;
+  transition: opacity var(--t-med) var(--e-out);
+}
+
+.project-card[data-cat="building"]::before {
+  top: -1px;
+  left: -1px;
+  border-top: var(--bw) solid;
+  border-left: var(--bw) solid;
+}
+
+.project-card[data-cat="building"]::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: var(--bw) solid;
+  border-right: var(--bw) solid;
+}
+
+.project-card[data-cat="building"]:hover::before,
+.project-card[data-cat="building"]:hover::after {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   МОДЕЛИНГ — полигон: срезанный угол и вершина на нём
+   ========================================================================== */
+
+.project-card[data-cat="modelling"] {
+  border-radius: var(--r-md);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+}
+
+/* Вершина на срезе: точка, как на каркасе модели. */
+.project-card[data-cat="modelling"]::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 7px;
+  right: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--c-line-strong);
+  transition: background-color var(--t-med) var(--e-out),
+              transform var(--t-med) var(--e-out);
+}
+
+.project-card[data-cat="modelling"]:hover::after {
+  background-color: var(--c-accent);
+  transform: scale(1.5);
+}
+
+/* ==========================================================================
+   VFX — свечение: луч по верхней кромке и ореол вокруг карточки
+   ========================================================================== */
+
+.project-card[data-cat="vfx"] {
+  overflow: visible;
+  transition: border-color var(--t-med) var(--e-out),
+              transform var(--t-med) var(--e-out),
+              box-shadow var(--t-slow) var(--e-out);
+}
+
+.project-card[data-cat="vfx"] .project-card__media {
+  border-top-left-radius: var(--r-lg);
+  border-top-right-radius: var(--r-lg);
+}
+
+.project-card[data-cat="vfx"]:hover {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--c-accent) 30%, transparent),
+              0 12px 40px -12px color-mix(in srgb, var(--c-accent) 35%, transparent);
+}
+
+.project-card[data-cat="vfx"]::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: -1px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c-accent), transparent);
+  transform: translateX(-50%);
+  transition: width var(--t-slow) var(--e-out);
+}
+
+.project-card[data-cat="vfx"]:hover::after {
+  width: 78%;
+}
+
+/* ==========================================================================
+   GUI — окно: заголовочная полоска с тремя точками
+   ========================================================================== */
+
+.project-card[data-cat="gui"]::before {
+  content: "";
+  display: block;
+  height: 22px;
+  flex-shrink: 0;
+  background-color: var(--c-bg-sunken);
+  border-bottom: var(--bw) solid var(--c-line);
+  background-image:
+    radial-gradient(circle 2px at 14px 11px, var(--c-line-strong) 99%, transparent),
+    radial-gradient(circle 2px at 24px 11px, var(--c-line-strong) 99%, transparent),
+    radial-gradient(circle 2px at 34px 11px, var(--c-line-strong) 99%, transparent);
+  background-repeat: no-repeat;
+  transition: background-color var(--t-med) var(--e-out);
+}
+
+.project-card[data-cat="gui"]:hover::before {
+  background-color: var(--c-bg-elev);
+}
+
+.project-card[data-cat="gui"] .project-card__media {
+  border-radius: 0;
+}
+
+.project-card[data-cat="gui"] .badge {
+  border-radius: var(--r-sm);
+}
+
+/* ==========================================================================
+   СКРИПТИНГ — терминал: каретка перед заголовком, полоса слева
+   ========================================================================== */
+
+.project-card[data-cat="scripting"] {
+  border-left: 2px solid var(--c-line-strong);
+  border-radius: 0 var(--r-lg) var(--r-lg) 0;
+  transition: border-color var(--t-med) var(--e-out),
+              border-left-color var(--t-med) var(--e-out),
+              transform var(--t-med) var(--e-out);
+}
+
+.project-card[data-cat="scripting"]:hover {
+  border-left-color: var(--c-accent);
+}
+
+/* Приглашение командной строки перед названием работы. */
+.project-card[data-cat="scripting"] .project-card__title::before {
+  content: "> ";
+  font-family: var(--f-mono);
+  color: var(--c-accent-text);
+}
+
+.project-card[data-cat="scripting"] .project-card__role {
+  font-family: var(--f-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   МУЗЫКА — дорожка: полоса воспроизведения по нижней кромке
+   ========================================================================== */
+
+.project-card[data-cat="music"] {
+  overflow: hidden;
+}
+
+.project-card[data-cat="music"]::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--c-accent);
+  transition: width 2.6s linear;
+}
+
+.project-card[data-cat="music"]:hover::after {
+  width: 100%;
+}
+
+/* ==========================================================================
+   ЗВУКИ — импульс: короткая вспышка по кромке, резче музыкальной
+   ========================================================================== */
+
+.project-card[data-cat="sfx"] {
+  overflow: hidden;
+}
+
+.project-card[data-cat="sfx"]::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--c-accent) 18%,
+    transparent 30%,
+    var(--c-accent) 52%,
+    transparent 62%,
+    var(--c-accent) 84%,
+    transparent 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--t-slow) var(--e-out);
+}
+
+.project-card[data-cat="sfx"]:hover::after {
+  transform: scaleX(1);
+}

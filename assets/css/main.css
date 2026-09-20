@@ -25,8 +25,11 @@
 @import url("components/hire-plate.css");
 @import url("components/team-plate.css");
 @import url("components/skill-place.css");
+@import url("components/constellation.css");
+@import url("components/scene.css");
 @import url("components/project-card.css");
 @import url("components/work-group.css");
+@import url("components/category-skin.css");
 @import url("components/filter-chips.css");
 @import url("components/lightbox.css");
 @import url("components/audio-player.css");

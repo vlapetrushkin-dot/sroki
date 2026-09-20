@@ -33,6 +33,8 @@ window.App.theme = (function () {
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         root.classList.remove("is-theme-switching");
+        /* Холст рисует своими цветами и о смене темы сам не узнает. */
+        root.dispatchEvent(new CustomEvent("themechange", { detail: theme }));
       });
     });
   }
