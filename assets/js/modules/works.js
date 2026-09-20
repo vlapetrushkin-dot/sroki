@@ -219,9 +219,16 @@ window.App.works = (function () {
       return '<div class="work-group__head">' + panel + "</div>";
     }
 
+    /* Посадка персонажа задаётся данными: у разных артов край занят
+       по-разному, и единого нахлёста на всех не существует. */
+    var tune = [];
+    if (ch.overlap != null) tune.push("--overlap:" + ch.overlap + "px");
+    if (ch.offsetY) tune.push("--char-shift:" + ch.offsetY + "px");
+    var style = tune.length ? ' style="' + tune.join(";") + '"' : "";
+
     return (
       '<div class="scene scene--' + esc(ch.side) + (ch.backlit ? " scene--backlit" : "") +
-        '" data-scene>' +
+        '" data-scene' + style + ">" +
         '<div class="scene__inner">' +
           '<figure class="scene__char">' +
             '<img src="assets/img/characters/' + esc(ch.file) +

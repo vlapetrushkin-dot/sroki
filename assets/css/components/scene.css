@@ -34,8 +34,8 @@
   z-index: 2;
   margin: 0;
   justify-self: center;
-  /* Лёгкий параллакс: персонаж догоняет плашку, а не стоит намертво. */
-  transform: translateY(calc((1 - var(--p)) * 16px));
+  /* Лёгкий параллакс плюс посадка конкретного арта (--char-shift). */
+  transform: translateY(calc((1 - var(--p)) * 16px + var(--char-shift, 0px)));
   transition: transform var(--t-slow) var(--e-out);
 }
 

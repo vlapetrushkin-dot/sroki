@@ -1,0 +1,153 @@
+/* ==========================================================================
+   RIFT — разлом в фоне: трещина со светящимся нутром и отлетевшие осколки.
+
+   Чтобы фон перестал быть однотонным, но не превратился в шум:
+     - разломов немного и они разбросаны по разным секциям;
+     - светится только нутро трещины, края остаются графитовыми;
+     - осколки мелкие и дрейфуют медленно.
+
+   Слой декоративный: events не ловит, из потока выключен, в печать
+   и при отключённых анимациях движение останавливается.
+   ========================================================================== */
+
+/* Секции изолируются в собственный слой: без этого разлом с z-index -1
+   провалился бы за фон страницы и стал невидим, а с z-index 0 — наоборот,
+   лёг бы поверх текста, потому что позиционированные элементы рисуются
+   после обычного потока. */
+.section,
+.hero {
+  isolation: isolate;
+  /* Разломы намеренно уходят за край секции — clip обрезает их по краю
+     окна, не создавая горизонтальной прокрутки (в отличие от hidden,
+     который сделал бы секцию скролл-контейнером). */
+  overflow-x: clip;
+}
+
+.rift {
+  /* Одна ручка яркости на все разломы: поднять — станут заметнее,
+     опустить — уйдут в фон. Меняется здесь, а не в пяти местах. */
+  --rift-strength: 0.85;
+
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+  opacity: var(--rift-strength);
+}
+
+.rift svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* --- Сама трещина --------------------------------------------------------- */
+
+/* Тёмная щель: создаёт ощущение глубины под поверхностью. */
+.rift__gap {
+  fill: var(--c-bg-sunken);
+  stroke: var(--c-line-strong);
+  stroke-width: 0.6;
+}
+
+/* Свет изнутри. Он же задаёт всё настроение разлома. */
+.rift__glow {
+  fill: none;
+  stroke: var(--c-accent);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 3px var(--c-accent))
+          drop-shadow(0 0 9px color-mix(in srgb, var(--c-accent) 55%, transparent));
+  animation: rift-pulse 5.5s var(--e-inout) infinite;
+}
+
+@keyframes rift-pulse {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+/* Тонкие ответвления — трещина не бывает одной линией. */
+.rift__branch {
+  fill: none;
+  stroke: var(--c-line-strong);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
+
+/* --- Осколки -------------------------------------------------------------- */
+
+.rift__shard {
+  fill: var(--c-bg-elev);
+  stroke: var(--c-line-strong);
+  stroke-width: 0.6;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rift-drift 9s var(--e-inout) infinite;
+}
+
+.rift__shard:nth-of-type(2) { animation-delay: -1.8s; animation-duration: 11s; }
+.rift__shard:nth-of-type(3) { animation-delay: -3.6s; animation-duration: 8s; }
+.rift__shard:nth-of-type(4) { animation-delay: -5.4s; animation-duration: 12s; }
+.rift__shard:nth-of-type(5) { animation-delay: -7.2s; animation-duration: 10s; }
+
+/* Один осколок ловит свет из разлома. */
+.rift__shard--lit {
+  stroke: var(--c-accent-text);
+}
+
+@keyframes rift-drift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(3px, -6px) rotate(9deg); }
+}
+
+/* --- Размещение ----------------------------------------------------------- */
+
+.rift--hero-right {
+  top: 12%;
+  right: -2%;
+  width: 190px;
+}
+
+.rift--works-left {
+  top: 18%;
+  left: -3%;
+  width: 150px;
+}
+
+.rift--process-right {
+  top: 6%;
+  right: -1%;
+  width: 170px;
+  transform: scaleX(-1);
+}
+
+.rift--contact-left {
+  bottom: 4%;
+  left: -2%;
+  width: 160px;
+}
+
+/* На узких экранах разломы жмутся к краю и лезут под текст. */
+@media (max-width: 62rem) {
+  .rift {
+    --rift-strength: 0.5;
+  }
+
+  .rift--hero-right,
+  .rift--process-right {
+    width: 110px;
+  }
+
+  .rift--works-left,
+  .rift--contact-left {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rift__glow,
+  .rift__shard {
+    animation: none;
+  }
+}

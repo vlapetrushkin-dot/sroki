@@ -1,21 +1,84 @@
-/* --- RIG: сустав ведёт конечность ------------------------------------------ */
+/* --- RIG: рука поднимается и машет ------------------------------------------
 
-.motif-rig:hover .m-anim-limb {
+   Взмах собран из двух вложенных поворотов, как настоящая рука:
+   плечо поднимает всю конечность, предплечье качается вокруг локтя.
+   Вложенные повороты перемножаются, поэтому локоть едет вместе с плечом,
+   а кисть — вместе с локтем.
+
+   Все части идут на одной длительности 3.2s: только так движения
+   попадают в такт друг другу.
+   -------------------------------------------------------------------------- */
+
+/* Плечо: поднимает руку и держит её наверху почти весь цикл. */
+.motif-rig:hover .m-anim-arm {
   transform-box: view-box;
-  transform-origin: 80px 44px;   /* плечевой сустав */
-  animation: mr-limb 3s var(--e-inout) infinite;
+  transform-origin: 80px 44px;
+  animation: mr-raise 3.2s var(--e-out) infinite;
 }
 
-@keyframes mr-limb {
-  0%, 100% { transform: rotate(-9deg); }
-  50%      { transform: rotate(9deg); }
+@keyframes mr-raise {
+  0%, 5%    { transform: rotate(0deg); }
+  20%, 74%  { transform: rotate(-54deg); }
+  88%, 100% { transform: rotate(0deg); }
 }
 
+/* Предплечье: качается вокруг локтя, но только пока рука поднята. */
+.motif-rig:hover .m-anim-forearm {
+  transform-box: view-box;
+  transform-origin: 102px 44px;
+  animation: mr-wave 3.2s var(--e-inout) infinite;
+}
+
+@keyframes mr-wave {
+  0%, 22%   { transform: rotate(0deg); }
+  32%       { transform: rotate(30deg); }
+  42%       { transform: rotate(-18deg); }
+  52%       { transform: rotate(30deg); }
+  62%       { transform: rotate(-18deg); }
+  72%, 100% { transform: rotate(0deg); }
+}
+
+/* Вторая рука слегка отзывается на движение — тело не стоит истуканом. */
+.motif-rig:hover .m-anim-arm-left {
+  transform-box: view-box;
+  transform-origin: 80px 44px;
+  animation: mr-sway 3.2s var(--e-inout) infinite;
+}
+
+@keyframes mr-sway {
+  0%, 100% { transform: rotate(0deg); }
+  45%      { transform: rotate(7deg); }
+}
+
+/* Корпус чуть приседает на замахе — вес переносится. */
+.motif-rig:hover .m-anim-body {
+  transform-box: view-box;
+  transform-origin: 80px 84px;
+  animation: mr-bob 3.2s var(--e-inout) infinite;
+}
+
+@keyframes mr-bob {
+  0%, 100% { transform: translateY(0); }
+  20%      { transform: translateY(1.5px); }
+  50%      { transform: translateY(-1px); }
+}
+
+/* Кисть на пике взмаха вспыхивает акцентом. */
+.motif-rig:hover .m-anim-hand {
+  animation: mr-hand 3.2s var(--e-out) infinite;
+}
+
+@keyframes mr-hand {
+  0%, 24%, 70%, 100% { stroke: var(--c-text-dim); r: 2.5; }
+  32%, 52%           { stroke: var(--c-accent-text); r: 3.4; }
+}
+
+/* Плечевой сустав отмечает начало и конец движения. */
 .motif-rig:hover .m-anim-joint {
-  animation: mr-joint 3s var(--e-inout) infinite;
+  animation: mr-joint 3.2s var(--e-inout) infinite;
 }
 
 @keyframes mr-joint {
-  0%, 100% { opacity: 0.5; }
-  50%      { opacity: 1; }
+  0%, 100% { opacity: 0.45; }
+  20%, 74% { opacity: 1; }
 }

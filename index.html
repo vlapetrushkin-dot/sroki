@@ -138,6 +138,21 @@
          =================================================================== -->
     <section class="hero" id="top">
 
+      <!-- Разлом в поверхности: светится изнутри, рядом отлетевшие куски.
+           Такой же блок стоит ещё в трёх секциях, см. rift.css -->
+      <div class="rift rift--hero-right" aria-hidden="true">
+        <svg viewBox="0 0 120 420">
+          <path class="rift__gap" d="M60 0 67 46 57 92 69 140 59 188 71 236 61 284 73 332 63 380 68 420 61 420 56 380 66 332 54 284 64 236 52 188 62 140 50 92 60 46 53 0Z"/>
+          <path class="rift__glow" d="M56 0 63 46 61 92 64 140 61 188 65 236 62 284 68 332 63 380 66 420"/>
+          <path class="rift__branch" d="M69 140 86 127M71 236 50 251M73 332 93 345"/>
+          <polygon class="rift__shard rift__shard--lit" points="92,108 105,117 94,126"/>
+          <polygon class="rift__shard" points="38,196 49,202 40,211"/>
+          <polygon class="rift__shard" points="99,268 108,276 97,280"/>
+          <polygon class="rift__shard" points="34,318 44,325 35,331"/>
+          <polygon class="rift__shard" points="88,380 97,388 86,392"/>
+        </svg>
+      </div>
+
       <div class="hero__bg" aria-hidden="true">
         <div class="hero__grid"></div>
         <div class="hero__blocks">
@@ -305,12 +320,14 @@
           <article class="skill-place motif-scripting">
             <div class="skill-place__motif" aria-hidden="true">
               <svg viewBox="0 0 160 90">
-                <rect class="m-fill" x="34" y="22" width="48" height="4" rx="2"/>
-                <rect class="m-fill" x="44" y="34" width="66" height="4" rx="2"/>
-                <rect class="m-fill m-anim-type" x="44" y="46" width="52" height="4" rx="2"/>
-                <rect class="m-fill" x="54" y="58" width="40" height="4" rx="2"/>
-                <rect class="m-fill" x="34" y="70" width="28" height="4" rx="2"/>
-                <rect class="m-accent-fill m-anim-caret" x="100" y="43" width="2" height="10"/>
+                <!-- Строки набираются по очереди: каждая растёт ступенями,
+                     как будто печатается по символу, каретка идёт следом. -->
+                <rect class="m-fill m-anim-line1" x="34" y="22" width="48" height="4" rx="2"/>
+                <rect class="m-fill m-anim-line2" x="44" y="34" width="66" height="4" rx="2"/>
+                <rect class="m-fill m-anim-line3" x="44" y="46" width="52" height="4" rx="2"/>
+                <rect class="m-fill m-anim-line4" x="54" y="58" width="40" height="4" rx="2"/>
+                <rect class="m-fill m-anim-line5" x="34" y="70" width="28" height="4" rx="2"/>
+                <rect class="m-accent-fill m-anim-caret" x="0" y="0" width="2" height="9"/>
               </svg>
             </div>
             <div class="skill-place__body">
@@ -362,16 +379,30 @@
           <article class="skill-place motif-rig">
             <div class="skill-place__motif" aria-hidden="true">
               <svg viewBox="0 0 160 90">
-                <circle class="m-dot" cx="80" cy="18" r="7"/>
-                <path d="M80 25v37"/>
-                <g class="m-anim-limb">
-                  <path d="M80 44 58 58 54 76"/>
-                  <path d="M80 44l22 14 4 18"/>
+                <!-- Рука собрана из двух звеньев с суставом в локте:
+                     плечо поворачивается от 80,44, предплечье — от своего
+                     локтя, поэтому взмах выглядит как настоящий. -->
+                <g class="m-anim-body">
+                  <circle class="m-dot" cx="80" cy="18" r="7"/>
+                  <path d="M80 25v37"/>
+
+                  <g class="m-anim-arm-left">
+                    <path d="M80 44 58 58 54 76"/>
+                    <circle class="m-dot" cx="58" cy="58" r="2.5"/>
+                  </g>
+
+                  <g class="m-anim-arm">
+                    <path d="M80 44h22"/>
+                    <g class="m-anim-forearm">
+                      <path d="M102 44 112 28"/>
+                      <circle class="m-dot m-anim-hand" cx="112" cy="28" r="2.5"/>
+                    </g>
+                    <circle class="m-dot" cx="102" cy="44" r="2.5"/>
+                  </g>
+
+                  <path d="M80 62 68 84M80 62l12 22"/>
+                  <circle class="m-accent m-anim-joint" cx="80" cy="44" r="4"/>
                 </g>
-                <path d="M80 62 68 84M80 62l12 22"/>
-                <circle class="m-dot" cx="58" cy="58" r="2.5"/>
-                <circle class="m-dot" cx="102" cy="58" r="2.5"/>
-                <circle class="m-accent m-anim-joint" cx="80" cy="44" r="4"/>
               </svg>
             </div>
             <div class="skill-place__body">
@@ -530,6 +561,19 @@
          — там же правится содержимое портфолио.
          =================================================================== -->
     <section class="section works" id="works">
+      <div class="rift rift--works-left" aria-hidden="true">
+        <svg viewBox="0 0 120 420">
+          <path class="rift__gap" d="M60 0 67 46 57 92 69 140 59 188 71 236 61 284 73 332 63 380 68 420 61 420 56 380 66 332 54 284 64 236 52 188 62 140 50 92 60 46 53 0Z"/>
+          <path class="rift__glow" d="M56 0 63 46 61 92 64 140 61 188 65 236 62 284 68 332 63 380 66 420"/>
+          <path class="rift__branch" d="M69 140 86 127M71 236 50 251M73 332 93 345"/>
+          <polygon class="rift__shard rift__shard--lit" points="92,108 105,117 94,126"/>
+          <polygon class="rift__shard" points="38,196 49,202 40,211"/>
+          <polygon class="rift__shard" points="99,268 108,276 97,280"/>
+          <polygon class="rift__shard" points="34,318 44,325 35,331"/>
+          <polygon class="rift__shard" points="88,380 97,388 86,392"/>
+        </svg>
+      </div>
+
       <div class="container">
 
         <div class="section-header">
@@ -568,6 +612,19 @@
          ПРОЦЕСС
          =================================================================== -->
     <section class="section" id="process">
+      <div class="rift rift--process-right" aria-hidden="true">
+        <svg viewBox="0 0 120 420">
+          <path class="rift__gap" d="M60 0 67 46 57 92 69 140 59 188 71 236 61 284 73 332 63 380 68 420 61 420 56 380 66 332 54 284 64 236 52 188 62 140 50 92 60 46 53 0Z"/>
+          <path class="rift__glow" d="M56 0 63 46 61 92 64 140 61 188 65 236 62 284 68 332 63 380 66 420"/>
+          <path class="rift__branch" d="M69 140 86 127M71 236 50 251M73 332 93 345"/>
+          <polygon class="rift__shard rift__shard--lit" points="92,108 105,117 94,126"/>
+          <polygon class="rift__shard" points="38,196 49,202 40,211"/>
+          <polygon class="rift__shard" points="99,268 108,276 97,280"/>
+          <polygon class="rift__shard" points="34,318 44,325 35,331"/>
+          <polygon class="rift__shard" points="88,380 97,388 86,392"/>
+        </svg>
+      </div>
+
       <div class="container">
 
         <div class="section-header">
@@ -759,6 +816,19 @@
          КОНТАКТЫ
          =================================================================== -->
     <section class="section" id="contact">
+      <div class="rift rift--contact-left" aria-hidden="true">
+        <svg viewBox="0 0 120 420">
+          <path class="rift__gap" d="M60 0 67 46 57 92 69 140 59 188 71 236 61 284 73 332 63 380 68 420 61 420 56 380 66 332 54 284 64 236 52 188 62 140 50 92 60 46 53 0Z"/>
+          <path class="rift__glow" d="M56 0 63 46 61 92 64 140 61 188 65 236 62 284 68 332 63 380 66 420"/>
+          <path class="rift__branch" d="M69 140 86 127M71 236 50 251M73 332 93 345"/>
+          <polygon class="rift__shard rift__shard--lit" points="92,108 105,117 94,126"/>
+          <polygon class="rift__shard" points="38,196 49,202 40,211"/>
+          <polygon class="rift__shard" points="99,268 108,276 97,280"/>
+          <polygon class="rift__shard" points="34,318 44,325 35,331"/>
+          <polygon class="rift__shard" points="88,380 97,388 86,392"/>
+        </svg>
+      </div>
+
       <div class="container">
 
         <div class="section-header">

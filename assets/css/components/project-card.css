@@ -11,13 +11,18 @@
   border: var(--bw) solid var(--c-line);
   border-radius: var(--r-lg);
   overflow: hidden;
+  /* Мягкий свет из-за карточки: приподнимает превью над фоном и
+     усиливается при наведении. */
+  box-shadow: 0 12px 32px -26px color-mix(in srgb, var(--c-accent) 24%, transparent);
   transition: border-color var(--t-med) var(--e-out),
+              box-shadow var(--t-slow) var(--e-out),
               transform var(--t-slow) var(--e-spring);
 }
 
 .project-card:hover {
   border-color: var(--c-line-strong);
   transform: translateY(-4px);
+  box-shadow: 0 22px 52px -24px color-mix(in srgb, var(--c-accent) 38%, transparent);
 }
 
 /* Скрытая фильтром карточка убирается из потока и из таб-порядка. */
