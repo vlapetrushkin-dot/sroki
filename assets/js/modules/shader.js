@@ -58,7 +58,7 @@ window.App.shader = (function () {
     /* Частота высокая: нужны тонкие нити, а не крупные пятна —
        иначе фон перебивает текст. */
     "  vec2 p = uv * vec2(u_res.x / u_res.y, 1.0) * 6.5;",
-    "  float t = u_time * 0.035;",
+    "  float t = u_time * 0.11;",
 
     /* Искажение области: поле течёт, а не мерцает на месте. */
     "  vec2 q = vec2(fbm(p + vec2(0.0, t)), fbm(p + vec2(5.2, -t)));",
@@ -83,9 +83,11 @@ window.App.shader = (function () {
     "}"
   ].join("\n");
 
-  /* Общая сила поля. Поднять — станет заметнее, опустить — уйдёт в фон.
-     Меняется здесь, чтобы не лезть в текст шейдера. */
+  /* Две ручки настройки, чтобы не лезть в текст шейдера.
+     STRENGTH — сила поля: поднять, и нити станут заметнее.
+     SPEED    — скорость течения: 1 — базовая, больше — быстрее. */
   var STRENGTH = 0.85;
+  var SPEED = 1;
 
   var canvas, gl, program, buffer, raf = null;
   var loc = {};
@@ -176,7 +178,7 @@ window.App.shader = (function () {
     lastFrame = now;
 
     gl.useProgram(program);
-    gl.uniform1f(loc.time, (now - startTime) / 1000);
+    gl.uniform1f(loc.time, (now - startTime) / 1000 * SPEED);
     gl.uniform2f(loc.mouse, mouse.x * SCALE, canvas.height - mouse.y * SCALE);
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }

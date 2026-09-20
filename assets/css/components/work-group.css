@@ -136,13 +136,17 @@
   padding-block: var(--sp-8);
 }
 
-/* Полоса во всю ширину окна, а не только контейнера. */
+/* Полоса во всю ширину окна, а не только контейнера.
+
+   Фон полупрозрачный: сплошной перекрывал бы фиксированные холсты с
+   шейдером и сеткой точек, и группа выпадала бы из общего фона чёрным
+   провалом. 72% хватает, чтобы полоса всё ещё читалась как утопленная. */
 .work-group--motion .work-group__bg {
   left: 50%;
   right: auto;
   width: 100vw;
   transform: translateX(-50%);
-  background-color: var(--c-bg-sunken);
+  background-color: color-mix(in srgb, var(--c-bg-sunken) 72%, transparent);
   border-block: var(--bw) solid var(--c-line);
 }
 
