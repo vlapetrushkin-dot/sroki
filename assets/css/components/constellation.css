@@ -6,16 +6,28 @@
    при мыши и включённых анимациях.
    ========================================================================== */
 
-.constellation {
+.constellation,
+.shader {
   position: fixed;
   inset: 0;
-  z-index: 0;
   pointer-events: none;
   opacity: 0;
   animation: constellation-in 1.2s var(--e-out) 0.2s forwards;
 }
 
-.constellation[hidden] {
+/* Шейдерное поле лежит ниже сетки точек: сначала атмосфера, поверх — связи. */
+.shader { z-index: -1; }
+.constellation { z-index: 0; }
+
+/* Холст рендерится в половинном разрешении, стили растягивают его
+   на весь экран — поле размытое, разницы на глаз нет. */
+.shader {
+  width: 100%;
+  height: 100%;
+}
+
+.constellation[hidden],
+.shader[hidden] {
   display: none;
 }
 

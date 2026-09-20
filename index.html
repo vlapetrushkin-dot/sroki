@@ -53,6 +53,7 @@
 
   <!-- Сетка точек за содержимым. hidden снимает constellation.js — только
        там, где слой имеет смысл: при мыши и включённых анимациях. -->
+  <canvas class="shader" data-shader hidden aria-hidden="true"></canvas>
   <canvas class="constellation" data-constellation hidden aria-hidden="true"></canvas>
 
   <!-- =====================================================================
@@ -137,21 +138,6 @@
          HERO
          =================================================================== -->
     <section class="hero" id="top">
-
-      <!-- Разлом в поверхности: светится изнутри, рядом отлетевшие куски.
-           Такой же блок стоит ещё в трёх секциях, см. rift.css -->
-      <div class="rift rift--hero-right" aria-hidden="true">
-        <svg viewBox="0 0 120 420">
-          <path class="rift__gap" d="M60 0 67 46 57 92 69 140 59 188 71 236 61 284 73 332 63 380 68 420 61 420 56 380 66 332 54 284 64 236 52 188 62 140 50 92 60 46 53 0Z"/>
-          <path class="rift__glow" d="M56 0 63 46 61 92 64 140 61 188 65 236 62 284 68 332 63 380 66 420"/>
-          <path class="rift__branch" d="M69 140 86 127M71 236 50 251M73 332 93 345"/>
-          <polygon class="rift__shard rift__shard--lit" points="92,108 105,117 94,126"/>
-          <polygon class="rift__shard" points="38,196 49,202 40,211"/>
-          <polygon class="rift__shard" points="99,268 108,276 97,280"/>
-          <polygon class="rift__shard" points="34,318 44,325 35,331"/>
-          <polygon class="rift__shard" points="88,380 97,388 86,392"/>
-        </svg>
-      </div>
 
       <div class="hero__bg" aria-hidden="true">
         <div class="hero__grid"></div>
@@ -561,19 +547,6 @@
          — там же правится содержимое портфолио.
          =================================================================== -->
     <section class="section works" id="works">
-      <div class="rift rift--works-left" aria-hidden="true">
-        <svg viewBox="0 0 120 420">
-          <path class="rift__gap" d="M60 0 67 46 57 92 69 140 59 188 71 236 61 284 73 332 63 380 68 420 61 420 56 380 66 332 54 284 64 236 52 188 62 140 50 92 60 46 53 0Z"/>
-          <path class="rift__glow" d="M56 0 63 46 61 92 64 140 61 188 65 236 62 284 68 332 63 380 66 420"/>
-          <path class="rift__branch" d="M69 140 86 127M71 236 50 251M73 332 93 345"/>
-          <polygon class="rift__shard rift__shard--lit" points="92,108 105,117 94,126"/>
-          <polygon class="rift__shard" points="38,196 49,202 40,211"/>
-          <polygon class="rift__shard" points="99,268 108,276 97,280"/>
-          <polygon class="rift__shard" points="34,318 44,325 35,331"/>
-          <polygon class="rift__shard" points="88,380 97,388 86,392"/>
-        </svg>
-      </div>
-
       <div class="container">
 
         <div class="section-header">
@@ -612,19 +585,6 @@
          ПРОЦЕСС
          =================================================================== -->
     <section class="section" id="process">
-      <div class="rift rift--process-right" aria-hidden="true">
-        <svg viewBox="0 0 120 420">
-          <path class="rift__gap" d="M60 0 67 46 57 92 69 140 59 188 71 236 61 284 73 332 63 380 68 420 61 420 56 380 66 332 54 284 64 236 52 188 62 140 50 92 60 46 53 0Z"/>
-          <path class="rift__glow" d="M56 0 63 46 61 92 64 140 61 188 65 236 62 284 68 332 63 380 66 420"/>
-          <path class="rift__branch" d="M69 140 86 127M71 236 50 251M73 332 93 345"/>
-          <polygon class="rift__shard rift__shard--lit" points="92,108 105,117 94,126"/>
-          <polygon class="rift__shard" points="38,196 49,202 40,211"/>
-          <polygon class="rift__shard" points="99,268 108,276 97,280"/>
-          <polygon class="rift__shard" points="34,318 44,325 35,331"/>
-          <polygon class="rift__shard" points="88,380 97,388 86,392"/>
-        </svg>
-      </div>
-
       <div class="container">
 
         <div class="section-header">
@@ -816,19 +776,6 @@
          КОНТАКТЫ
          =================================================================== -->
     <section class="section" id="contact">
-      <div class="rift rift--contact-left" aria-hidden="true">
-        <svg viewBox="0 0 120 420">
-          <path class="rift__gap" d="M60 0 67 46 57 92 69 140 59 188 71 236 61 284 73 332 63 380 68 420 61 420 56 380 66 332 54 284 64 236 52 188 62 140 50 92 60 46 53 0Z"/>
-          <path class="rift__glow" d="M56 0 63 46 61 92 64 140 61 188 65 236 62 284 68 332 63 380 66 420"/>
-          <path class="rift__branch" d="M69 140 86 127M71 236 50 251M73 332 93 345"/>
-          <polygon class="rift__shard rift__shard--lit" points="92,108 105,117 94,126"/>
-          <polygon class="rift__shard" points="38,196 49,202 40,211"/>
-          <polygon class="rift__shard" points="99,268 108,276 97,280"/>
-          <polygon class="rift__shard" points="34,318 44,325 35,331"/>
-          <polygon class="rift__shard" points="88,380 97,388 86,392"/>
-        </svg>
-      </div>
-
       <div class="container">
 
         <div class="section-header">
@@ -1026,6 +973,8 @@
   <script src="assets/js/modules/reveal.js" defer></script>
   <script src="assets/js/modules/scene.js" defer></script>
   <script src="assets/js/modules/constellation.js" defer></script>
+  <script src="assets/js/modules/shader.js" defer></script>
+  <script src="assets/js/modules/rift.js" defer></script>
   <script src="assets/js/modules/magnetic.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>

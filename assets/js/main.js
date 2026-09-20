@@ -28,6 +28,8 @@
     /* Сцены существуют только после отрисовки работ — отсюда и порядок. */
     window.App.scene.init();
     window.App.constellation.init();
+    window.App.shader.init();
+    window.App.rift.init();
     window.App.magnetic.init();
 
     /* Год в подвале — чтобы не устаревал. */

@@ -1,78 +1,110 @@
 /* ==========================================================================
-   RIFT — разлом в фоне: трещина со светящимся нутром и отлетевшие осколки.
+   RIFT — разлом-вспышка: светящееся ядро, расходящиеся трещины, осколки.
 
-   Чтобы фон перестал быть однотонным, но не превратился в шум:
-     - разломов немного и они разбросаны по разным секциям;
-     - светится только нутро трещины, края остаются графитовыми;
-     - осколки мелкие и дрейфуют медленно.
+   Разметку создаёт rift.js процедурно, здесь только внешний вид.
 
-   Слой декоративный: events не ловит, из потока выключен, в печать
-   и при отключённых анимациях движение останавливается.
+   Слои снизу вверх:
+     .rift__core    — ядро: белое в центре, к краю уходит в акцент
+     .rift__crack   — трещины, прочерчиваются и затухают
+     .rift__shard   — осколки, медленно дрейфуют наружу
+
+   Всё декоративное: событий не ловит, из потока выключено, при
+   отключённых анимациях вообще не создаётся.
    ========================================================================== */
 
 /* Секции изолируются в собственный слой: без этого разлом с z-index -1
-   провалился бы за фон страницы и стал невидим, а с z-index 0 — наоборот,
-   лёг бы поверх текста, потому что позиционированные элементы рисуются
-   после обычного потока. */
+   провалился бы за фон страницы, а с z-index 0 — лёг бы поверх текста,
+   потому что позиционированные элементы рисуются после обычного потока. */
 .section,
 .hero {
   isolation: isolate;
-  /* Разломы намеренно уходят за край секции — clip обрезает их по краю
+  /* Вспышки намеренно уходят за край секции — clip обрезает их по краю
      окна, не создавая горизонтальной прокрутки (в отличие от hidden,
      который сделал бы секцию скролл-контейнером). */
   overflow-x: clip;
 }
 
 .rift {
-  /* Одна ручка яркости на все разломы: поднять — станут заметнее,
-     опустить — уйдут в фон. Меняется здесь, а не в пяти местах. */
-  --rift-strength: 0.85;
+  /* Одна ручка яркости на все вспышки сразу. */
+  --rift-strength: 0.9;
 
   position: absolute;
   z-index: -1;
+  width: var(--size, 220px);
+  height: var(--size, 220px);
   pointer-events: none;
   user-select: none;
   opacity: var(--rift-strength);
 }
 
 .rift svg {
+  position: relative;
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   overflow: visible;
 }
 
-/* --- Сама трещина --------------------------------------------------------- */
 
-/* Тёмная щель: создаёт ощущение глубины под поверхностью. */
-.rift__gap {
-  fill: var(--c-bg-sunken);
-  stroke: var(--c-line-strong);
-  stroke-width: 0.6;
+/* --- Ядро ----------------------------------------------------------------- */
+
+.rift__core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46%;
+  height: 46%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  /* Белое пятно в центре и акцентный ореол вокруг: свет идёт изнутри
+     разлома, а не лежит на поверхности. */
+  background:
+    radial-gradient(closest-side,
+      color-mix(in srgb, var(--c-text) 92%, var(--c-accent)) 0%,
+      var(--c-accent) 26%,
+      color-mix(in srgb, var(--c-accent) 45%, transparent) 46%,
+      transparent 72%);
+  filter: blur(6px);
+  animation: rift-core 7s var(--e-inout) infinite;
+  animation-delay: calc(var(--i, 0) * -0.9s);
 }
 
-/* Свет изнутри. Он же задаёт всё настроение разлома. */
-.rift__glow {
+@keyframes rift-core {
+  0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.86); }
+  50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.06); }
+}
+
+/* --- Трещины -------------------------------------------------------------- */
+
+.rift__crack {
   fill: none;
   stroke: var(--c-accent);
-  stroke-width: 1.4;
+  stroke-width: 1.6;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 3px var(--c-accent))
-          drop-shadow(0 0 9px color-mix(in srgb, var(--c-accent) 55%, transparent));
-  animation: rift-pulse 5.5s var(--e-inout) infinite;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 2px var(--c-accent))
+          drop-shadow(0 0 7px color-mix(in srgb, var(--c-accent) 60%, transparent));
+
+  /* Прочерчивание: длина заведомо больше самой длинной трещины. */
+  stroke-dasharray: 190;
+  stroke-dashoffset: 190;
+  animation: rift-draw 7s var(--e-out) infinite;
+  animation-delay: calc(var(--delay, 0s) + var(--i, 0) * -0.9s);
 }
 
-@keyframes rift-pulse {
-  0%, 100% { opacity: 0.5; }
-  50%      { opacity: 1; }
+/* У ответвлений размытия нет: drop-shadow на анимируемом пути считается
+   каждый кадр, а на тонких линиях его всё равно почти не видно. */
+.rift__crack--thin {
+  stroke-width: 1;
+  opacity: 0.8;
+  filter: none;
 }
 
-/* Тонкие ответвления — трещина не бывает одной линией. */
-.rift__branch {
-  fill: none;
-  stroke: var(--c-line-strong);
-  stroke-width: 0.8;
-  stroke-linecap: round;
+@keyframes rift-draw {
+  0%       { stroke-dashoffset: 190; opacity: 0; }
+  12%      { opacity: 1; }
+  45%, 72% { stroke-dashoffset: 0; opacity: 1; }
+  100%     { stroke-dashoffset: 0; opacity: 0; }
 }
 
 /* --- Осколки -------------------------------------------------------------- */
@@ -83,71 +115,51 @@
   stroke-width: 0.6;
   transform-box: fill-box;
   transform-origin: center;
-  animation: rift-drift 9s var(--e-inout) infinite;
+  animation: rift-shard 9s var(--e-inout) infinite;
+  animation-delay: calc(var(--delay, 0s) * -1);
 }
 
-.rift__shard:nth-of-type(2) { animation-delay: -1.8s; animation-duration: 11s; }
-.rift__shard:nth-of-type(3) { animation-delay: -3.6s; animation-duration: 8s; }
-.rift__shard:nth-of-type(4) { animation-delay: -5.4s; animation-duration: 12s; }
-.rift__shard:nth-of-type(5) { animation-delay: -7.2s; animation-duration: 10s; }
-
-/* Один осколок ловит свет из разлома. */
+/* Часть осколков ловит свет из разлома. */
 .rift__shard--lit {
+  fill: color-mix(in srgb, var(--c-accent) 22%, var(--c-bg-elev));
   stroke: var(--c-accent-text);
 }
 
-@keyframes rift-drift {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  50%      { transform: translate(3px, -6px) rotate(9deg); }
+@keyframes rift-shard {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.55; }
+  50%      { transform: translate(var(--drift, 5px), calc(var(--drift, 5px) * -1.2)) rotate(14deg); opacity: 1; }
 }
 
-/* --- Размещение ----------------------------------------------------------- */
+/* --- Пауза за экраном -----------------------------------------------------
+   Блок стоит ПОСЛЕ объявлений анимаций намеренно: короткая запись
+   `animation` сбрасывает animation-play-state в running, и правило,
+   написанное выше, было бы затёрто.
 
-.rift--hero-right {
-  top: 12%;
-  right: -2%;
-  width: 190px;
+   Класс is-asleep вешает rift.js на вспышки за пределами экрана: из
+   четырнадцати одновременно считаются две-три, остальные стоят.
+
+   Логика именно такая, а не наоборот, ради безопасного отказа: если
+   наблюдатель не отработает, всё просто анимируется как обычно. При
+   обратной логике вспышки застыли бы в нулевом кадре, где трещины ещё
+   не прочерчены, — то есть исчезли бы. */
+.rift.is-asleep .rift__core,
+.rift.is-asleep .rift__crack,
+.rift.is-asleep .rift__shard {
+  animation-play-state: paused;
 }
 
-.rift--works-left {
-  top: 18%;
-  left: -3%;
-  width: 150px;
-}
+/* --- Адаптив -------------------------------------------------------------- */
 
-.rift--process-right {
-  top: 6%;
-  right: -1%;
-  width: 170px;
-  transform: scaleX(-1);
-}
-
-.rift--contact-left {
-  bottom: 4%;
-  left: -2%;
-  width: 160px;
-}
-
-/* На узких экранах разломы жмутся к краю и лезут под текст. */
 @media (max-width: 62rem) {
   .rift {
     --rift-strength: 0.5;
-  }
-
-  .rift--hero-right,
-  .rift--process-right {
-    width: 110px;
-  }
-
-  .rift--works-left,
-  .rift--contact-left {
-    display: none;
+    width: calc(var(--size, 220px) * 0.6);
+    height: calc(var(--size, 220px) * 0.6);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rift__glow,
-  .rift__shard {
-    animation: none;
+  .rift {
+    display: none;
   }
 }
