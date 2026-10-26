@@ -82,22 +82,6 @@ window.APP_PROJECTS = [
   },
 
   {
-    id: "building-forest",
-    cat: "building",
-    title: { ru: "Постапокалиптический лес", en: "Post-apocalyptic forest" },
-    role: { ru: "Террейн, растительность, расстановка", en: "Terrain, foliage, set dressing" },
-    desc: {
-      ru: "Хвойный массив с брошенной техникой и ЛЭП до горизонта. Сцена под стелс и дальние дистанции.",
-      en: "Pine woodland with abandoned vehicles and power lines to the horizon. Built for stealth and long sightlines."
-    },
-    tags: ["Terrain", "Foliage", "Props"],
-    media: [
-      { type: "image", src: "building-forest-1.jpg", thumb: "building-forest-1-thumb.jpg" },
-      { type: "image", src: "building-forest-2.jpg", thumb: "building-forest-2-thumb.jpg" }
-    ]
-  },
-
-  {
     id: "vfx-fireslash",
     cat: "vfx",
     title: { ru: "Огненный слэш", en: "Fire slash" },
@@ -150,8 +134,7 @@ window.APP_PROJECTS = [
     },
     tags: ["ParticleEmitter", "Decals"],
     media: [
-      { type: "image", src: "vfx-blood-1.jpg", thumb: "vfx-blood-1-thumb.jpg" },
-      { type: "image", src: "vfx-blood-2.jpg", thumb: "vfx-blood-2-thumb.jpg" }
+      { type: "image", src: "vfx-blood-1.jpg", thumb: "vfx-blood-1-thumb.jpg" }
     ]
   },
 

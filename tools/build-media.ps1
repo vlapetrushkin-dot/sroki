@@ -35,8 +35,6 @@ New-Item -ItemType Directory -Force -Path $Out | Out-Null
 # --- Картинки: исходник → имя на выходе -----------------------------------
 $images = @(
     @{ src = 'Билдинг\content.png';                      out = 'building-construction' }
-    @{ src = 'Билдинг\photo_2026-09-14_23-25-08.jpg';    out = 'building-forest-1' }
-    @{ src = 'Билдинг\photo_2026-09-14_23-25-08 (2).jpg'; out = 'building-forest-2' }
     @{ src = 'GUI\con33tent.png';                        out = 'gui-shooter' }
     @{ src = 'GUI\153513.jpg';                           out = 'gui-stylized' }
     @{ src = 'модели\ima111ge.png';                      out = 'model-helmet' }
@@ -50,7 +48,6 @@ $images = @(
     @{ src = 'модели\im5353age.png';                     out = 'model-guardian' }
     @{ src = 'VFX\сайты (4).png';                        out = 'vfx-fireslash' }
     @{ src = 'VFX\ima6ge.png';                           out = 'vfx-blood-1' }
-    @{ src = 'VFX\photo_2026-51307-03_09-15-52.jpg';     out = 'vfx-blood-2' }
     @{ src = 'Код\photo_2026-09-16_17-05-07.jpg';        out = 'code-rojo' }
 )
 
