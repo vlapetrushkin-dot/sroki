@@ -217,29 +217,32 @@ window.APP_PROJECTS = [
     title: { ru: "Существа", en: "Creatures" },
     role: { ru: "Моделинг и стилизация", en: "Modelling and stylisation" },
     desc: {
-      ru: "Единорог с раскалёнными трещинами по корпусу и страж с светящимся ореолом. Два разных стиля в одном наборе.",
-      en: "A unicorn with molten cracks across its body and a guardian with a glowing halo. Two distinct styles in one set."
+      ru: "Единорог с раскалёнными трещинами по корпусу, страж со светящимся ореолом и тыквоголовое существо с ветвями вместо рук. Разные стили — от светящейся стилизации до текстурированного реализма.",
+      en: "A unicorn with molten cracks across its body, a guardian with a glowing halo and a pumpkin-headed creature with branches for arms. Different styles, from glowing stylisation to textured realism."
     },
     tags: ["Stylized", "Character", "Emission"],
     media: [
       { type: "image", src: "model-unicorn.jpg", thumb: "model-unicorn-thumb.jpg" },
-      { type: "image", src: "model-guardian.jpg", thumb: "model-guardian-thumb.jpg" }
+      { type: "image", src: "model-guardian.jpg", thumb: "model-guardian-thumb.jpg" },
+      { type: "image", src: "model-pumpkin.jpg", thumb: "model-pumpkin-thumb.jpg" }
     ]
   },
 
   {
     id: "model-halloween",
     cat: "modelling",
-    title: { ru: "Хэллоуин: ворота и существо", en: "Halloween: gate and creature" },
+    title: { ru: "Хэллоуин: набор ассетов", en: "Halloween asset set" },
     role: { ru: "Моделинг, текстуры, стилизация", en: "Modelling, texturing, stylisation" },
     desc: {
-      ru: "Готические ворота с львиными кольцами и тыквоголовое существо с ветвями вместо рук. Один сеттинг, разная подача: стилизованный проп и текстурированный персонаж.",
-      en: "A gothic gate with lion-ring knockers and a pumpkin-headed creature with branches for arms. One setting, two treatments: a stylised prop and a textured character."
+      ru: "Кот, котёл с зельем, мухомор в ведьминой шляпе и готические ворота. Набор держится на общих приёмах: мягкие скруглённые формы, лунно-звёздная символика и тёплое золото на холодной фиолетовой базе.",
+      en: "A cat, a bubbling cauldron, a toadstool in a witch hat and a gothic gate. The set holds together through shared devices: soft rounded shapes, moon-and-star symbols and warm gold over a cool purple base."
     },
-    tags: ["Stylized", "Character", "Props"],
+    tags: ["Stylized", "Props", "Character"],
     media: [
-      { type: "image", src: "model-gate.jpg", thumb: "model-gate-thumb.jpg" },
-      { type: "image", src: "model-pumpkin.jpg", thumb: "model-pumpkin-thumb.jpg" }
+      { type: "image", src: "model-cat.jpg", thumb: "model-cat-thumb.jpg" },
+      { type: "image", src: "model-cauldron.jpg", thumb: "model-cauldron-thumb.jpg" },
+      { type: "image", src: "model-mushroom.jpg", thumb: "model-mushroom-thumb.jpg" },
+      { type: "image", src: "model-gate.jpg", thumb: "model-gate-thumb.jpg" }
     ]
   },
 

@@ -47,6 +47,9 @@ $images = @(
     @{ src = 'C:\Users\Admin\Desktop\vfx\photo_2026-10-05_09-17-40.jpg';   out = 'vfx-portal' }
     @{ src = 'C:\Users\Admin\Desktop\model\image.png';                     out = 'model-gate' }
     @{ src = 'C:\Users\Admin\Desktop\model\image33.png';                   out = 'model-pumpkin' }
+    @{ src = 'C:\Users\Admin\Desktop\model\cauldron.png';                  out = 'model-cauldron' }
+    @{ src = 'C:\Users\Admin\Desktop\model\mushroom-witch.png';            out = 'model-mushroom' }
+    @{ src = 'C:\Users\Admin\Desktop\model\cat.png';                       out = 'model-cat' }
     @{ src = 'Билдинг\content.png';                      out = 'building-construction' }
     @{ src = 'GUI\con33tent.png';                        out = 'gui-shooter' }
     @{ src = 'GUI\153513.jpg';                           out = 'gui-stylized' }
