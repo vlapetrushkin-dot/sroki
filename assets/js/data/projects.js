@@ -82,6 +82,19 @@ window.APP_PROJECTS = [
   },
 
   {
+    id: "building-halloween",
+    cat: "building",
+    title: { ru: "Хэллоуинская площадь", en: "Halloween square" },
+    role: { ru: "Билдинг, свет, расстановка", en: "Building, lighting, set dressing" },
+    desc: {
+      ru: "Ночная площадь с лавками: пекарня, лавка зелий, колокольня. Весь свет сцены держат фонари, тыквы и подсветка окон.",
+      en: "A night square lined with shops: bakery, potion store, bell tower. The whole scene is lit by lanterns, pumpkins and window glow."
+    },
+    tags: ["Stylized", "Lighting", "Environment"],
+    media: [{ type: "image", src: "building-halloween.jpg", thumb: "building-halloween-thumb.jpg" }]
+  },
+
+  {
     id: "vfx-fireslash",
     cat: "vfx",
     title: { ru: "Огненный слэш", en: "Fire slash" },
@@ -136,6 +149,19 @@ window.APP_PROJECTS = [
     media: [
       { type: "image", src: "vfx-blood-1.jpg", thumb: "vfx-blood-1-thumb.jpg" }
     ]
+  },
+
+  {
+    id: "vfx-portal",
+    cat: "vfx",
+    title: { ru: "Портал", en: "Portal" },
+    role: { ru: "VFX: ядро, кольцо, свечение", en: "VFX: core, ring, glow" },
+    desc: {
+      ru: "Сфера портала: пульсирующее ядро-звезда внутри, многослойное кольцо по краю и мягкий ореол наружу.",
+      en: "A portal sphere: a pulsing star core inside, a layered ring along the rim and a soft halo outwards."
+    },
+    tags: ["ParticleEmitter", "Beams", "Glow"],
+    media: [{ type: "image", src: "vfx-portal.jpg", thumb: "vfx-portal-thumb.jpg" }]
   },
 
   {
@@ -202,6 +228,22 @@ window.APP_PROJECTS = [
   },
 
   {
+    id: "model-halloween",
+    cat: "modelling",
+    title: { ru: "Хэллоуин: ворота и существо", en: "Halloween: gate and creature" },
+    role: { ru: "Моделинг, текстуры, стилизация", en: "Modelling, texturing, stylisation" },
+    desc: {
+      ru: "Готические ворота с львиными кольцами и тыквоголовое существо с ветвями вместо рук. Один сеттинг, разная подача: стилизованный проп и текстурированный персонаж.",
+      en: "A gothic gate with lion-ring knockers and a pumpkin-headed creature with branches for arms. One setting, two treatments: a stylised prop and a textured character."
+    },
+    tags: ["Stylized", "Character", "Props"],
+    media: [
+      { type: "image", src: "model-gate.jpg", thumb: "model-gate-thumb.jpg" },
+      { type: "image", src: "model-pumpkin.jpg", thumb: "model-pumpkin-thumb.jpg" }
+    ]
+  },
+
+  {
     id: "music-still-waters",
     cat: "music",
     title: { ru: "Still Waters", en: "Still Waters" },
@@ -214,6 +256,24 @@ window.APP_PROJECTS = [
     media: [
       { type: "audio", src: "music-still-waters.mp3", title: { ru: "Still Waters", en: "Still Waters" } },
       { type: "audio", src: "music-still-waters-alt.mp3", title: { ru: "Still Waters — вторая версия", en: "Still Waters — second version" } }
+    ]
+  },
+
+  {
+    id: "music-abyssal",
+    cat: "music",
+    title: { ru: "Abyssal", en: "Abyssal" },
+    role: { ru: "Композиция, аранжировка, сведение", en: "Composition, arrangement, mixing" },
+    desc: {
+      ru: "Саундтрек для мрачного подводного сеттинга: тема меню, спуск в глубину и тикающее ожидание. Четыре дорожки, две из них — версии одной темы разной длины.",
+      en: "A soundtrack for a dark underwater setting: a menu theme, a descent into the deep and a ticking wait. Four tracks; two of them are versions of the same theme at different lengths."
+    },
+    tags: ["Ambient", "Soundtrack", "Dark"],
+    media: [
+      { type: "audio", src: "music-abyssal-menu.mp3", title: { ru: "Abyssal Menu — тема меню", en: "Abyssal Menu — menu theme" } },
+      { type: "audio", src: "music-abyssal-descent.mp3", title: { ru: "Abyssal Descent", en: "Abyssal Descent" } },
+      { type: "audio", src: "music-abyssal-descent-long.mp3", title: { ru: "Abyssal Descent — длинная версия", en: "Abyssal Descent — long version" } },
+      { type: "audio", src: "music-ticking-deep.mp3", title: { ru: "Ticking Deep Waters", en: "Ticking Deep Waters" } }
     ]
   },
 

@@ -82,7 +82,7 @@ window.APP_I18N = {
     /* --- Работы --- */
     "works.title": "Работы",
     "works.lead":
-      "Четырнадцать работ в четырёх группах. Под каждой — что именно делал я.",
+      "Восемнадцать работ в четырёх группах. Под каждой — что именно делал я.",
     "works.note":
       "Часть записей сделана прямо в Roblox Studio: это рабочий материал, а не смонтированный ролик. Так честнее — видно, как всё собрано.",
     "works.all": "Все",
@@ -266,7 +266,7 @@ window.APP_I18N = {
     /* --- Work --- */
     "works.title": "Work",
     "works.lead":
-      "Fourteen pieces in four groups. Each one says what part was mine.",
+      "Eighteen pieces in four groups. Each one says what part was mine.",
     "works.note":
       "Some clips are recorded straight in Roblox Studio — working material, not an edited reel. That is the honest version: you can see how it is put together.",
     "works.all": "All",

@@ -30,10 +30,23 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
     throw 'ffmpeg не найден в PATH'
 }
 
+# Исходники приходят из разных папок, сводить их в одну незачем: в манифесте
+# путь может быть и относительным (от $Src), и полным.
+function Resolve-Source {
+    param([string]$Path)
+    if ([System.IO.Path]::IsPathRooted($Path)) { return $Path }
+    return (Join-Path $Src $Path)
+}
+
 New-Item -ItemType Directory -Force -Path $Out | Out-Null
 
-# --- Картинки: исходник → имя на выходе -----------------------------------
+# --- Картинки: исходник → имя на выходе. crop = "ш:в:x:y", если в кадр
+#     попал интерфейс Studio или Blender -------------------------------------
 $images = @(
+    @{ src = 'C:\Users\Admin\Desktop\map\image11.png';                     out = 'building-halloween'; crop = '1104:726:3:13' }
+    @{ src = 'C:\Users\Admin\Desktop\vfx\photo_2026-10-05_09-17-40.jpg';   out = 'vfx-portal' }
+    @{ src = 'C:\Users\Admin\Desktop\model\image.png';                     out = 'model-gate' }
+    @{ src = 'C:\Users\Admin\Desktop\model\image33.png';                   out = 'model-pumpkin' }
     @{ src = 'Билдинг\content.png';                      out = 'building-construction' }
     @{ src = 'GUI\con33tent.png';                        out = 'gui-shooter' }
     @{ src = 'GUI\153513.jpg';                           out = 'gui-stylized' }
@@ -61,6 +74,10 @@ $videos = @(
 
 # --- Аудио -----------------------------------------------------------------
 $audio = @(
+    @{ src = 'C:\Users\Admin\Desktop\music\Abyssal Descent.mp3';          out = 'music-abyssal-descent' }
+    @{ src = 'C:\Users\Admin\Desktop\music\Abyssal Descent (1)(1).mp3';   out = 'music-abyssal-descent-long' }
+    @{ src = 'C:\Users\Admin\Desktop\music\Abyssal Menu(1).mp3';          out = 'music-abyssal-menu' }
+    @{ src = 'C:\Users\Admin\Desktop\music\Ticking Deep Waters(1).mp3';   out = 'music-ticking-deep' }
     @{ src = 'Музыка\Still Waters.mp3';            out = 'music-still-waters' }
     @{ src = 'Музыка\Still Waters (1).mp3';        out = 'music-still-waters-alt' }
     @{ src = 'SFX\атака_босса_колья.mp3';          out = 'sfx-boss-spikes' }
@@ -72,21 +89,25 @@ function Get-Kb($path) { [math]::Round((Get-Item -LiteralPath $path).Length / 1K
 
 Write-Host "`n=== Картинки ===" -ForegroundColor Cyan
 foreach ($i in $images) {
-    $in = Join-Path $Src $i.src
+    $in = Resolve-Source $i.src
     if (-not (Test-Path -LiteralPath $in)) { Write-Host "  пропуск (нет файла): $($i.src)" -ForegroundColor Yellow; continue }
 
     $full  = Join-Path $Out "$($i.out).jpg"
     $thumb = Join-Path $Out "$($i.out)-thumb.jpg"
 
+    # Обрезка идёт до масштабирования: иначе координаты кадра пришлось бы
+    # пересчитывать под уже уменьшенную картинку.
+    $pre = if ($i.crop) { "crop=$($i.crop)," } else { "" }
+
     # scale с min(): меньшие картинки не растягиваем, -2 держит чётную сторону
-    & ffmpeg -v error -y -i $in -vf "scale='min(1600,iw)':-2:flags=lanczos" -q:v 4 $full
-    & ffmpeg -v error -y -i $in -vf "scale='min(800,iw)':-2:flags=lanczos"  -q:v 5 $thumb
+    & ffmpeg -v error -y -i $in -vf "$pre`scale='min(1600,iw)':-2:flags=lanczos" -q:v 4 $full
+    & ffmpeg -v error -y -i $in -vf "$pre`scale='min(800,iw)':-2:flags=lanczos"  -q:v 5 $thumb
     Write-Host ("  {0,-26} {1,5} KB / превью {2,4} KB" -f $i.out, (Get-Kb $full), (Get-Kb $thumb))
 }
 
 Write-Host "`n=== Видео ===" -ForegroundColor Cyan
 foreach ($v in $videos) {
-    $in = Join-Path $Src $v.src
+    $in = Resolve-Source $v.src
     if (-not (Test-Path -LiteralPath $in)) { Write-Host "  пропуск (нет файла): $($v.src)" -ForegroundColor Yellow; continue }
 
     $mp4    = Join-Path $Out "$($v.out).mp4"
@@ -107,7 +128,7 @@ foreach ($v in $videos) {
 
 Write-Host "`n=== Аудио ===" -ForegroundColor Cyan
 foreach ($a in $audio) {
-    $in = Join-Path $Src $a.src
+    $in = Resolve-Source $a.src
     if (-not (Test-Path -LiteralPath $in)) { Write-Host "  пропуск (нет файла): $($a.src)" -ForegroundColor Yellow; continue }
 
     $mp3 = Join-Path $Out "$($a.out).mp3"
