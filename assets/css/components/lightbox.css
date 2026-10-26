@@ -90,6 +90,9 @@
 .lightbox__slide {
   position: absolute;
   inset: 0;
+  /* Слой кадра добавляется в DOM после стрелок и без z-index лёг бы
+     поверх них: клик по стрелке попадал бы в фон и закрывал просмотр. */
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -118,6 +121,7 @@
 
 .lightbox__nav {
   position: absolute;
+  z-index: 2;        /* выше слоя кадра, иначе клик до стрелки не доходит */
   top: 50%;
   transform: translateY(-50%);
   display: grid;
