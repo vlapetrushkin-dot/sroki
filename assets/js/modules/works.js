@@ -169,7 +169,7 @@ window.App.works = (function () {
     var year = p.year ? '<span class="project-card__year u-label">' + esc(p.year) + "</span>" : "";
 
     return (
-      '<article class="project-card" data-cat="' + esc(p.cat) + '" data-card="' + esc(p.id) + '">' +
+      '<article class="project-card" data-reveal data-cat="' + esc(p.cat) + '" data-card="' + esc(p.id) + '">' +
         mediaEl +
         '<div class="project-card__body">' +
           '<div class="project-card__top">' +
@@ -195,7 +195,7 @@ window.App.works = (function () {
           '<span class="work-sub__count u-label">' + items.length + "</span>" +
           '<span class="work-sub__rule" aria-hidden="true"></span>' +
         "</div>" +
-        '<div class="works__grid">' + items.map(cardHtml).join("") + "</div>" +
+        '<div class="works__grid" data-reveal-group>' + items.map(cardHtml).join("") + "</div>" +
       "</div>"
     );
   }

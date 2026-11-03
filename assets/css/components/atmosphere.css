@@ -1,0 +1,112 @@
+/* ==========================================================================
+   ATMOSPHERE — воздух страницы: свечение за первым экраном, зерно и
+   виньетка.
+
+   Зачем слой вообще: на плоском #07080b любая карточка выглядит
+   наклейкой. Три почти невидимых слоя дают глубину, в которой карточке
+   есть куда всплыть, — и ни один из них не спорит с текстом.
+
+   Все слои фиксированные, лежат под содержимым и не ловят события.
+   ========================================================================== */
+
+.atmo {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* --- Свечение ------------------------------------------------------------
+   Два пятна: холодное сверху слева и акцентное справа. Оба очень слабые —
+   их задача не светиться, а не дать фону стать однотонным. */
+
+.atmo__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0;
+  animation: atmo-in 1.6s var(--e-out) 0.1s forwards;
+}
+
+.atmo__glow--cool {
+  top: -22vh;
+  left: -12vw;
+  width: 62vw;
+  height: 62vh;
+  background: radial-gradient(circle, var(--c-cool-soft), transparent 68%);
+}
+
+.atmo__glow--warm {
+  top: -8vh;
+  right: -16vw;
+  width: 54vw;
+  height: 58vh;
+  background: radial-gradient(circle, rgba(198, 255, 63, 0.13), transparent 66%);
+}
+
+/* Нижнее пятно появляется только на длинных экранах: на ноутбуке оно
+   попадает ровно под кнопки и подсвечивает их снизу, как подсветка стола. */
+.atmo__glow--floor {
+  bottom: -30vh;
+  left: 18vw;
+  width: 70vw;
+  height: 46vh;
+  background: radial-gradient(circle, rgba(198, 255, 63, 0.07), transparent 70%);
+}
+
+@keyframes atmo-in {
+  to { opacity: 1; }
+}
+
+/* --- Виньетка ------------------------------------------------------------
+   Притемняет углы. Без неё крупный заголовок на весь экран «вытекает»
+   за кадр; с ней кадр собран. */
+
+.atmo__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 38%, transparent 42%, rgba(0, 0, 0, 0.62) 100%);
+}
+
+/* --- Зерно ---------------------------------------------------------------
+   SVG-шум вместо картинки: ничего не грузится, и на любом разрешении
+   зерно одинаково мелкое. Оно скрывает полосы на градиентах — главную
+   примету дешёвого тёмного фона. */
+
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform;
+  animation: grain-shift 7s steps(6) infinite;
+}
+
+/* Зерно должно жить: статичное читается как грязь на экране. Сдвиг
+   крупными шагами — так зерно «перезасыпается», а не ползёт. */
+@keyframes grain-shift {
+  0%   { transform: translate3d(0, 0, 0); }
+  17%  { transform: translate3d(-3%, 2%, 0); }
+  34%  { transform: translate3d(2%, -3%, 0); }
+  51%  { transform: translate3d(-2%, -2%, 0); }
+  68%  { transform: translate3d(3%, 1%, 0); }
+  85%  { transform: translate3d(-1%, 3%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+  .atmo__glow { animation: none; opacity: 1; }
+}
+
+/* --- Шейдерное поле ------------------------------------------------------
+   Поле осталось, но убрано на задний план: маска гасит его к низу экрана,
+   чтобы текст секций лежал на спокойном фоне, а не на разводах. */
+
+.shader {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.35) 48%, transparent 88%);
+          mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.35) 48%, transparent 88%);
+}

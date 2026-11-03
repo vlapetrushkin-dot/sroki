@@ -11,10 +11,12 @@
 
 .section {
   position: relative;
-  padding-block: clamp(var(--sp-8), 10vw, var(--sp-10));
+  padding-block: clamp(var(--sp-9), 12vw, var(--sp-10));
 }
 
-/* Тонкая линия-разделитель, обрезанная по контейнеру. */
+/* Разделитель секций — не сплошная линия, а штрих, тающий к краям.
+   Сплошная через весь контейнер режет страницу на отдельные листы;
+   штрих только отмечает шов. */
 .section + .section::before {
   content: "";
   position: absolute;
@@ -22,33 +24,63 @@
   left: var(--gutter);
   right: var(--gutter);
   height: var(--bw);
-  background-color: var(--c-line);
+  background: linear-gradient(to right,
+              transparent, var(--c-line-strong) 18%, var(--c-line-strong) 82%, transparent);
 }
 
+/* --- Шапка секции --------------------------------------------------------
+   Номер и заголовок стоят в одной строке, номер — крупный и приглушённый.
+   Так секция читается как глава, а не как очередной подзаголовок. */
+
 .section-header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-7);
+  display: grid;
+  gap: var(--sp-4);
+  margin-bottom: clamp(var(--sp-7), 6vw, var(--sp-9));
 }
 
 .section-header__top {
   display: flex;
   align-items: center;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
 }
 
-/* Номер секции + линия до края. */
 .section-header__num {
   flex-shrink: 0;
+  font-size: var(--fs-xs);
+  color: var(--c-accent-text);
+  opacity: 0.8;
 }
 
 .section-header__rule {
   flex: 1;
   height: var(--bw);
-  background-color: var(--c-line);
+  background: linear-gradient(to right, var(--c-line-strong), transparent);
+}
+
+.section-header h2 {
+  font-size: var(--fs-2xl);
+  letter-spacing: var(--ls-display);
+  text-wrap: balance;
 }
 
 .section-header__text {
-  max-width: 54ch;
+  max-width: 52ch;
+}
+
+/* Крупный экран: заголовок слева, лид справа — пара колонок вместо
+   одной длинной колбасы текста под заголовком. */
+@media (min-width: 64rem) {
+  .section-header {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    align-items: end;
+    column-gap: var(--sp-8);
+  }
+
+  .section-header__top {
+    grid-column: 1 / -1;
+  }
+
+  .section-header__text {
+    padding-bottom: 0.4em;
+  }
 }

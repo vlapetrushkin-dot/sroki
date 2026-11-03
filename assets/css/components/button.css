@@ -44,23 +44,32 @@
 
 /* --- Варианты ------------------------------------------------------------- */
 
+/* Акцентная кнопка — единственный яркий объект в кадре, поэтому под ней
+   своё свечение: она должна читаться как источник света, а не как
+   наклеенный прямоугольник. */
 .btn--primary {
-  background-color: var(--c-accent);
+  background-image: linear-gradient(to bottom,
+                    color-mix(in srgb, var(--c-accent) 88%, #fff), var(--c-accent));
   color: var(--c-accent-ink);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset,
+              0 6px 24px -10px var(--c-accent-glow);
 }
 
 .btn--primary:hover {
-  background-color: color-mix(in srgb, var(--c-accent) 86%, var(--c-text));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.45) inset,
+              0 10px 34px -10px var(--c-accent-glow);
 }
 
 .btn--ghost {
   border-color: var(--c-line-strong);
+  background-color: rgba(238, 241, 246, 0.03);
   color: var(--c-text);
+  box-shadow: 0 1px 0 var(--c-ring) inset;
 }
 
 .btn--ghost:hover {
-  border-color: var(--c-text);
-  background-color: var(--c-accent-soft);
+  border-color: var(--c-text-mute);
+  background-color: rgba(238, 241, 246, 0.07);
 }
 
 .btn--quiet {

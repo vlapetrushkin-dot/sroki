@@ -34,6 +34,16 @@
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
 
+  <!-- Воздух страницы: свечение, виньетка, зерно. Чистое оформление,
+       стилями и без скриптов — см. css/components/atmosphere.css. -->
+  <div class="atmo" aria-hidden="true">
+    <span class="atmo__glow atmo__glow--cool"></span>
+    <span class="atmo__glow atmo__glow--warm"></span>
+    <span class="atmo__glow atmo__glow--floor"></span>
+    <span class="atmo__vignette"></span>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
   <!-- Сетка точек за содержимым. hidden снимает constellation.js — только
        там, где слой имеет смысл: при мыши и включённых анимациях. -->
   <canvas class="shader" data-shader hidden aria-hidden="true"></canvas>
@@ -111,13 +121,12 @@
 
       <div class="hero__bg" aria-hidden="true">
         <div class="hero__grid"></div>
-        <div class="hero__blocks">
-          <span class="hero__block"></span>
-          <span class="hero__block"></span>
-          <span class="hero__block"></span>
-          <span class="hero__block"></span>
-        </div>
       </div>
+
+      <!-- Шоурил. Источники подставляет hero-reel.js — только на широком
+           экране, при включённых анимациях и экономном режиме выключенным.
+           Без скрипта здесь просто ничего нет. -->
+      <div class="hero__reel" data-reel aria-hidden="true"></div>
 
       <div class="container">
         <div class="hero__inner">
@@ -130,9 +139,11 @@
           <span class="u-label" data-i18n="hero.role">Fullstack Roblox Developer</span>
         </div>
 
-        <h1 class="hero__title" data-enter="2" data-i18n-html="hero.title">
-          I build Roblox games <span class="u-accent">end to end</span>
-        </h1>
+        <div class="line-mask">
+          <h1 class="hero__title" data-i18n-html="hero.title">
+            I build Roblox games <span class="u-accent">end to end</span>
+          </h1>
+        </div>
 
         <p class="hero__sub" data-enter="3" data-i18n="hero.sub">
           Scripting, building, modelling, animation, rigging, VFX, SFX, music, GUI and cutscenes —
@@ -189,6 +200,11 @@
 
         </div>
       </div>
+
+      <div class="hero__scroll" aria-hidden="true">
+        <span class="hero__scroll-track"></span>
+        <span class="u-label" data-i18n="hero.scroll">Scroll</span>
+      </div>
     </section>
 
     <!-- ===================================================================
@@ -203,7 +219,7 @@
     <section class="section" id="disciplines">
       <div class="container">
 
-        <div class="section-header">
+        <div class="section-header" data-reveal>
           <div class="section-header__top">
             <span class="u-label section-header__num">01</span>
             <span class="section-header__rule" aria-hidden="true"></span>
@@ -214,10 +230,10 @@
           </p>
         </div>
 
-        <div class="disciplines__grid">
+        <div class="disciplines__grid" data-reveal-group>
 
           <!-- 01 · Билдинг: изометрические блоки, верхний встаёт на место -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="building" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -237,7 +253,7 @@
           </article>
 
           <!-- 02 · Моделинг: каркас тора вращается в 3D -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="modelling" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -257,7 +273,7 @@
           </article>
 
           <!-- 03 · Скриптинг: код набирается и прогоняется -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="scripting" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -277,7 +293,7 @@
           </article>
 
           <!-- 04 · Анимация: прыгающий мяч и таймлайн с ключами -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="animation" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -297,7 +313,7 @@
           </article>
 
           <!-- 05 · Риг: манипулятор из костей, ведомый IK-целью -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="rig" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -317,7 +333,7 @@
           </article>
 
           <!-- 06 · VFX: эмиттер частиц -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="vfx" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -337,7 +353,7 @@
           </article>
 
           <!-- 07 · Музыка и звук: волна и плейхед -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="sfx-music" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -357,7 +373,7 @@
           </article>
 
           <!-- 08 · GUI: курсор щёлкает тумблер, тянет слайдер, жмёт кнопку -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="gui" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -377,7 +393,7 @@
           </article>
 
           <!-- 09 · Катсцены: видоискатель, параллакс, шторки -->
-          <article class="skill-place">
+          <article class="skill-place" data-reveal>
             <div class="skill-place__motif" data-motif="cutscene" aria-hidden="true"></div>
             <div class="skill-place__body">
               <div class="skill-place__head">
@@ -415,7 +431,7 @@
     <section class="section works" id="works">
       <div class="container">
 
-        <div class="section-header">
+        <div class="section-header" data-reveal>
           <div class="section-header__top">
             <span class="u-label section-header__num">02</span>
             <span class="section-header__rule" aria-hidden="true"></span>
@@ -453,7 +469,7 @@
     <section class="section" id="process">
       <div class="container">
 
-        <div class="section-header">
+        <div class="section-header" data-reveal>
           <div class="section-header__top">
             <span class="u-label section-header__num">03</span>
             <span class="section-header__rule" aria-hidden="true"></span>
@@ -528,7 +544,7 @@
     <section class="section" id="about">
       <div class="container">
 
-        <div class="section-header">
+        <div class="section-header" data-reveal>
           <div class="section-header__top">
             <span class="u-label section-header__num">04</span>
             <span class="section-header__rule" aria-hidden="true"></span>
@@ -644,7 +660,7 @@
     <section class="section" id="contact">
       <div class="container">
 
-        <div class="section-header">
+        <div class="section-header" data-reveal>
           <div class="section-header__top">
             <span class="u-label section-header__num">05</span>
             <span class="section-header__rule" aria-hidden="true"></span>
@@ -842,6 +858,9 @@
   <script src="assets/js/modules/rift.js" defer></script>
   <script src="assets/js/modules/motifs.js" defer></script>
   <script src="assets/js/modules/magnetic.js" defer></script>
+  <script src="assets/js/modules/hero-reel.js" defer></script>
+  <script src="assets/js/modules/tilt.js" defer></script>
+  <script src="assets/js/modules/progress.js" defer></script>
   <script src="assets/js/main.js" defer></script>
 </body>
 </html>

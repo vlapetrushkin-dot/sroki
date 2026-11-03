@@ -31,6 +31,9 @@
     window.App.rift.init();
     window.App.motifs.init();
     window.App.magnetic.init();
+    window.App.heroReel.init();
+    window.App.tilt.init();
+    window.App.progress.init();
 
     /* Год в подвале — чтобы не устаревал. */
     var year = document.querySelector("[data-year]");

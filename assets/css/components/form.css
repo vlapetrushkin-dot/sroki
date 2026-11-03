@@ -56,9 +56,12 @@
   border-color: var(--c-line-strong);
 }
 
+/* Кольцо вместо одной рамки: на тёмном фоне смена цвета границы в 1px
+   почти не читается, и непонятно, какое поле сейчас активно. */
 .field__control:focus {
   outline: none;
   border-color: var(--c-accent-text);
+  box-shadow: 0 0 0 3px var(--c-accent-soft);
 }
 
 textarea.field__control {

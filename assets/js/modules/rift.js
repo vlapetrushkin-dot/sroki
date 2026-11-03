@@ -51,18 +51,18 @@ window.App.rift = (function () {
      PULSE_SPEED  — скорость импульса, единиц сцены в секунду (сцена 200×200).
      CORE_ALPHA   — яркость ядра.
      MOTES        — искр на вспышку размером 200px (меньше вспышка — меньше искр). */
-  var LINE_ALPHA = 0.34;
+  var LINE_ALPHA = 0.24;
   var PULSE_ALPHA = 0.95;
   var PULSE_SPEED = 46;
-  var CORE_ALPHA = 0.8;
-  var MOTES = 11;
+  var CORE_ALPHA = 0.55;
+  var MOTES = 9;
 
   var VB = 200;            /* сторона сцены в условных единицах */
   var C = VB / 2;          /* центр */
   var TAU = Math.PI * 2;
   var DPR_MAX = 2;
 
-  var accent = [184, 255, 60];
+  var accent = [198, 255, 63];
   var hot = [209, 255, 128];     /* сердцевина луча: акцент, разбавленный белым */
   var white = [240, 255, 214];   /* центр ядра */
   var sprite = null;

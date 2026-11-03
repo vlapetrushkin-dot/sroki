@@ -19,6 +19,7 @@
   background-color: var(--c-bg-elev);
   border: var(--bw) solid var(--c-line);
   border-radius: var(--r-lg);
+  box-shadow: 0 1px 0 var(--c-ring) inset, var(--sh-2);
   overflow: hidden;
 }
 

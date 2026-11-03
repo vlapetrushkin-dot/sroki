@@ -11,9 +11,9 @@
   border: var(--bw) solid var(--c-line);
   border-radius: var(--r-lg);
   overflow: hidden;
-  /* Мягкий свет из-за карточки: приподнимает превью над фоном и
-     усиливается при наведении. */
-  box-shadow: 0 12px 32px -26px color-mix(in srgb, var(--c-accent) 24%, transparent);
+  /* Контактная тень + длинная мягкая: карточка стоит на поверхности, а не
+     висит в пустоте. Светлая кромка сверху (inset) читается как блик. */
+  box-shadow: 0 1px 0 var(--c-ring) inset, var(--sh-2);
   transition: border-color var(--t-med) var(--e-out),
               box-shadow var(--t-slow) var(--e-out),
               transform var(--t-slow) var(--e-spring);
@@ -21,8 +21,30 @@
 
 .project-card:hover {
   border-color: var(--c-line-strong);
-  transform: translateY(-4px);
-  box-shadow: 0 22px 52px -24px color-mix(in srgb, var(--c-accent) 38%, transparent);
+  transform: translateY(-6px);
+  box-shadow: 0 1px 0 var(--c-ring) inset, var(--sh-3), var(--sh-glow);
+}
+
+/* Свет за курсором. Координаты ставит tilt.js в --mx/--my; без скрипта
+   пятно просто не появляется — hover остаётся обычным. */
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(198, 255, 63, 0.09),
+    transparent 62%
+  );
+  opacity: 0;
+  transition: opacity var(--t-med) var(--e-out);
+}
+
+.project-card:hover::before {
+  opacity: 1;
 }
 
 /* Скрытая фильтром карточка убирается из потока и из таб-порядка. */
@@ -37,7 +59,11 @@
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background-color: var(--c-bg-sunken);
+  /* Не чёрный прямоугольник, а градиент: пока картинка грузится, место
+     под неё выглядит занятым, а не дырой в карточке. */
+  background:
+    radial-gradient(90% 120% at 30% 0%, rgba(47, 107, 255, 0.1), transparent 60%),
+    var(--c-bg-sunken);
   border: 0;
   border-bottom: var(--bw) solid var(--c-line);
   padding: 0;
@@ -166,19 +192,30 @@
   font-weight: 500;
   letter-spacing: var(--ls-tight);
   line-height: var(--lh-snug);
+  transition: color var(--t-med) var(--e-out);
+}
+
+.project-card:hover .project-card__title {
+  color: var(--c-accent-text);
 }
 
 .project-card__year {
   flex-shrink: 0;
 }
 
-/* Роль — главное в карточке: что именно сделано руками. */
+/* Роль — главное в карточке: что именно сделано руками.
+
+   Раньше строка была целиком акцентной. На восемнадцати карточках подряд
+   акцент переставал быть акцентом — осталась только засечка слева, а сам
+   текст читается спокойным. */
 .project-card__role {
   display: flex;
   align-items: baseline;
   gap: var(--sp-2);
+  padding-left: var(--sp-3);
+  border-left: 2px solid var(--c-accent);
   font-size: var(--fs-xs);
-  color: var(--c-accent-text);
+  color: var(--c-text-dim);
 }
 
 .project-card__desc {

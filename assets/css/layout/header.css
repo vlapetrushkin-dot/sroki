@@ -35,8 +35,33 @@
 .header.is-scrolled {
   /* 82% пропускали яркую кнопку насквозь — подняли до 94%. */
   background-color: color-mix(in srgb, var(--c-bg) 94%, transparent);
-  backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(150%);
   border-bottom-color: var(--c-line);
+  box-shadow: 0 1px 0 var(--c-ring) inset, var(--sh-2);
+}
+
+/* --- Линия прогресса -----------------------------------------------------
+   Тонкая полоса по нижнему краю шапки: доля прочитанного. Ширину ставит
+   progress.js через --progress. Без скрипта ширина нулевая — линии нет. */
+
+.header__progress {
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 2px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.header__progress::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  background: linear-gradient(to right,
+              color-mix(in srgb, var(--c-accent) 35%, transparent), var(--c-accent));
+  box-shadow: 0 0 12px var(--c-accent-glow);
 }
 
 /* Firefox без color-mix получит сплошной фон — это допустимо. */

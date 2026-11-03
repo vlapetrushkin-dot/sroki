@@ -86,7 +86,7 @@ window.App.shader = (function () {
   /* Две ручки настройки, чтобы не лезть в текст шейдера.
      STRENGTH — сила поля: поднять, и нити станут заметнее.
      SPEED    — скорость течения: 1 — базовая, больше — быстрее. */
-  var STRENGTH = 0.85;
+  var STRENGTH = 0.30;
   var SPEED = 1;
 
   var canvas, gl, program, buffer, raf = null;

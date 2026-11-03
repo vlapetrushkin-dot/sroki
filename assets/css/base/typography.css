@@ -18,8 +18,19 @@ h4 {
   letter-spacing: var(--ls-tight);
 }
 
-h1 { font-size: var(--fs-3xl); }
-h2 { font-size: var(--fs-2xl); }
+/* Крупные кегли требуют плотного трекинга и лёгкого веса: Space Grotesk
+   на 500 с обычным трекингом на 7rem выглядит раздутым. */
+h1 {
+  font-size: var(--fs-3xl);
+  font-weight: 400;
+  letter-spacing: var(--ls-display);
+}
+
+h2 {
+  font-size: var(--fs-2xl);
+  letter-spacing: var(--ls-display);
+}
+
 h3 { font-size: var(--fs-xl); line-height: var(--lh-snug); }
 h4 { font-size: var(--fs-lg); line-height: var(--lh-snug); }
 
@@ -71,17 +82,48 @@ strong {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* Подъём с едва заметным приближением: блок не «подъезжает» плоско,
+     а выходит из глубины. --reveal-i ставит reveal.js — это номер
+     элемента в своей группе, он же задержка. */
   .js [data-reveal] {
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity var(--t-slow) var(--e-out),
-                transform var(--t-slow) var(--e-out);
+    transform: translate3d(0, 22px, 0) scale(0.985);
+    transition: opacity var(--t-cine) var(--e-out),
+                transform var(--t-cine) var(--e-out);
+    transition-delay: calc(var(--reveal-i, 0) * 70ms);
   }
 
   .js [data-reveal].is-revealed {
     opacity: 1;
     transform: none;
   }
+}
+
+/* --- Заголовок, выезжающий из-за маски ------------------------------------
+   Буквы выходят из-под края, а не проявляются на месте: так заголовок
+   читается как кадр, который начался, а не как текст, который догрузился.
+
+   overflow: clip вместо hidden — вместе с overflow-clip-margin он режет
+   только снизу и пропускает свечение акцентного слова. Там, где свойство
+   не поддержано, маски просто нет: заголовок виден сразу. */
+
+.line-mask {
+  display: block;
+  overflow: clip;
+  overflow-clip-margin: 0.45em;
+}
+
+.line-mask > * {
+  animation: line-rise 1.2s var(--e-out) 140ms backwards;
+}
+
+@keyframes line-rise {
+  from { transform: translate3d(0, 108%, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line-mask > * { animation: none; }
 }
 
 /* Скрыто визуально, но доступно скринридеру. */

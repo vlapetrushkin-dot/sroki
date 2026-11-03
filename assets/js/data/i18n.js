@@ -36,6 +36,7 @@ window.APP_I18N = {
     "hero.stat2l": "дисциплин в одном человеке",
     "hero.stat3v": "∞",
     "hero.stat3l": "стилей и жанров",
+    "hero.scroll": "Листайте",
     "hero.also": "Также:",
     "hero.alsoText": "сайты, ПО, боты, парсеры, автоматизация",
 
@@ -219,6 +220,7 @@ window.APP_I18N = {
     "hero.stat2l": "disciplines, one person",
     "hero.stat3v": "∞",
     "hero.stat3l": "styles and genres",
+    "hero.scroll": "Scroll",
     "hero.also": "Also:",
     "hero.alsoText": "websites, software, bots, parsers, automation",
 

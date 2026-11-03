@@ -11,10 +11,20 @@
   margin-bottom: var(--sp-6);
 }
 
-/* Обёртка чипов: display:contents, чтобы кнопки попадали прямо во флекс
-   .filters. Иначе перерисовка чипов затирала бы счётчик рядом. */
+
+/* Чипы стоят на своей подложке — так ряд читается как один переключатель,
+   а не как восемь отдельных кнопок, рассыпанных по фону. Счётчик лежит
+   рядом с группой, а не внутри: перерисовка чипов его не задевает. */
 .filters__group {
-  display: contents;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: var(--sp-1);
+  background-color: color-mix(in srgb, var(--c-bg-elev) 76%, transparent);
+  border: var(--bw) solid var(--c-line);
+  border-radius: var(--r-full);
+  box-shadow: 0 1px 0 var(--c-ring) inset;
 }
 
 .filters__chip {
@@ -22,19 +32,18 @@
   align-items: center;
   gap: var(--sp-2);
   padding: var(--sp-2) var(--sp-4);
-  border: var(--bw) solid var(--c-line);
+  border: var(--bw) solid transparent;
   border-radius: var(--r-full);
   background: none;
   font-size: var(--fs-xs);
-  color: var(--c-text-dim);
+  color: var(--c-text-mute);
   cursor: pointer;
-  transition: border-color var(--t-fast) var(--e-out),
-              color var(--t-fast) var(--e-out),
+  transition: color var(--t-fast) var(--e-out),
               background-color var(--t-fast) var(--e-out);
 }
 
 .filters__chip:hover {
-  border-color: var(--c-line-strong);
+  background-color: rgba(238, 241, 246, 0.055);
   color: var(--c-text);
 }
 
@@ -42,6 +51,7 @@
   background-color: var(--c-accent);
   border-color: transparent;
   color: var(--c-accent-ink);
+  box-shadow: 0 2px 14px -4px var(--c-accent-glow);
 }
 
 /* Счётчик работ в категории — цифра рядом с названием. */

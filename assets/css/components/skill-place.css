@@ -21,6 +21,7 @@
   background-color: var(--c-bg-elev);
   border: var(--bw) solid var(--c-line);
   border-radius: var(--r-lg);
+  box-shadow: 0 1px 0 var(--c-ring) inset, var(--sh-1);
   transition: border-color 0.5s var(--e-out),
               transform 0.6s var(--e-out),
               box-shadow 0.6s var(--e-out);
@@ -28,9 +29,8 @@
 
 .skill-place:hover {
   border-color: var(--c-line-strong);
-  transform: translateY(-4px);
-  box-shadow: 0 22px 44px -22px rgba(0, 0, 0, 0.75),
-              0 0 0 1px color-mix(in srgb, var(--c-accent) 6%, transparent);
+  transform: translateY(-6px);
+  box-shadow: 0 1px 0 var(--c-ring) inset, var(--sh-3), var(--sh-glow);
 }
 
 /* Пятно света за курсором — поверх содержимого, но очень слабое. */

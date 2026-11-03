@@ -2,23 +2,36 @@
    БЕЙДЖИ — теги дисциплин, языки, статус доступности.
    ========================================================================== */
 
+/* Теги больше не капслок: восемнадцать карточек по три-четыре тега —
+   это полсотни строчек капсом на экран, они перетягивали внимание с
+   названий работ. Обычный регистр, заливка вместо обводки. */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
-  padding: var(--sp-1) var(--sp-3);
-  border: var(--bw) solid var(--c-line);
+  padding: 0.3em var(--sp-3);
+  background-color: rgba(238, 241, 246, 0.045);
+  border: var(--bw) solid transparent;
   border-radius: var(--r-full);
   font-family: var(--f-mono);
   font-size: var(--fs-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--c-text-dim);
+  letter-spacing: 0.04em;
+  color: var(--c-text-mute);
   white-space: nowrap;
+  transition: background-color var(--t-fast) var(--e-out),
+              color var(--t-fast) var(--e-out);
+}
+
+/* В наведённой карточке теги проявляются — но только там, куда смотрят. */
+.project-card:hover .badge,
+.skill-place:hover .badge {
+  background-color: rgba(238, 241, 246, 0.075);
+  color: var(--c-text-dim);
 }
 
 .badge--accent {
-  border-color: var(--c-accent-text);
+  background-color: var(--c-accent-soft);
+  border-color: color-mix(in srgb, var(--c-accent) 36%, transparent);
   color: var(--c-accent-text);
 }
 
@@ -30,9 +43,10 @@
 
 /* Статус «открыт к заказам» с пульсирующей точкой. */
 .badge--status {
+  background-color: color-mix(in srgb, var(--c-bg-elev-2) 86%, transparent);
   border-color: var(--c-line-strong);
+  box-shadow: 0 1px 0 var(--c-ring) inset;
   color: var(--c-text);
-  text-transform: none;
   letter-spacing: 0.02em;
 }
 

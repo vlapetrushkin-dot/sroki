@@ -12,3 +12,4 @@ desktop.ini
 # Python
 __pycache__/
 *.pyc
+.claude/

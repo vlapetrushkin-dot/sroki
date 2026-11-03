@@ -1,6 +1,10 @@
 /* ==========================================================================
-   HERO — первый экран. Фоновый мотив: чертёжная сетка, из которой
-   собираются блоки. Тот же мотив станет основой для дисциплины Building.
+   HERO — первый экран.
+
+   Кадр собран из трёх планов: шоурил (живое видео работ) справа, сетка-
+   чертёж под ним, текст слева. Видео намеренно задавлено по яркости и
+   растворено маской — это не превью работы, а свет и движение за текстом.
+   Читаемость заголовка не зависит от того, загрузилось оно или нет.
    ========================================================================== */
 
 .hero {
@@ -34,63 +38,70 @@
           mask-image: radial-gradient(120% 90% at 22% 32%, #000 0%, transparent 72%);
 }
 
-/* Несколько «воксельных» блоков — деталь, которая даёт объём.
-   На узких экранах им негде встать, не наехав на текст, — прячем. */
-.hero__blocks {
+/* --- Шоурил ---------------------------------------------------------------
+   Занимает правую половину кадра и уходит в фон двумя масками: по
+   горизонтали — чтобы не наехать на текст, по вертикали — чтобы не
+   упереться в шапку и в нижний край. */
+
+.hero__reel {
   display: none;
 }
 
 @media (min-width: 62rem) {
-  .hero__blocks {
+  .hero__reel {
     display: block;
     position: absolute;
-    inset: 0;
+    top: 0;
+    right: 0;
+    width: 68%;
+    height: 100%;
+    overflow: hidden;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 42%),
+      linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
+            mask-image:
+      linear-gradient(to right, transparent 0%, #000 42%),
+      linear-gradient(to bottom, transparent 0%, #000 22%, #000 72%, transparent 100%);
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
   }
 }
 
-.hero__block {
+.hero__shot {
   position: absolute;
-  border: var(--bw) solid var(--c-line-strong);
-  border-radius: 2px;
-  animation: block-float 9s var(--e-inout) infinite;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  /* Рендеры пёстрые: сажаем яркость и насыщенность, поднимаем контраст.
+     Кадр должен давать свет и фактуру, а не спорить с палитрой. */
+  filter: saturate(0.62) brightness(0.46) contrast(1.15);
+  /* Наезд идёт всё время показа, а не только в момент смены: кадр
+     «дышит», и слой не читается как приклеенная картинка. */
+  transform: scale(1.02);
+  transition: opacity 1.8s var(--e-inout), transform 7s linear;
 }
 
-.hero__block:nth-child(1) {
-  width: calc(var(--grid-cell) * 2);
-  height: calc(var(--grid-cell) * 2);
-  top: 18%;
-  right: 12%;
-  animation-delay: 0s;
+.hero__shot.is-live {
+  opacity: 0.5;
+  transform: scale(1.1);
 }
 
-.hero__block:nth-child(2) {
-  width: var(--grid-cell);
-  height: var(--grid-cell);
-  top: 34%;
-  right: 26%;
-  border-color: var(--c-accent-text);
-  animation-delay: -3s;
-}
-
-.hero__block:nth-child(3) {
-  width: calc(var(--grid-cell) * 3);
-  height: var(--grid-cell);
-  bottom: 22%;
-  right: 18%;
-  animation-delay: -6s;
-}
-
-.hero__block:nth-child(4) {
-  width: var(--grid-cell);
-  height: calc(var(--grid-cell) * 2);
-  bottom: 34%;
-  right: 38%;
-  animation-delay: -4.5s;
-}
-
-@keyframes block-float {
-  0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.5; }
-  50%      { transform: translate3d(0, -10px, 0); opacity: 1; }
+/* Решётка сканлайнов поверх кадра: дешёвый приём, но он превращает
+   рендер в «изображение на мониторе» и прячет артефакты сжатия. */
+.hero__reel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.45;
+  pointer-events: none;
 }
 
 /* --- Контент -------------------------------------------------------------- */
@@ -117,6 +128,12 @@
   text-wrap: balance;
 }
 
+/* Акцентное слово светится: единственное место на странице, где акцент
+   работает как свет, а не как краска. */
+.hero__title .u-accent {
+  text-shadow: 0 0 44px var(--c-accent-glow);
+}
+
 .hero__sub {
   font-size: var(--fs-lg);
   line-height: var(--lh-snug);
@@ -130,27 +147,41 @@
   gap: var(--sp-3);
 }
 
-/* --- Цифры ---------------------------------------------------------------- */
+/* --- Цифры ----------------------------------------------------------------
+   Разделители — вертикальные волоски между колонками, а не рамка сверху:
+   цифры читаются как табло, а не как подвал блока. */
 
 .hero__stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-  gap: var(--sp-4);
+  gap: var(--sp-5);
   padding-top: var(--sp-5);
   border-top: var(--bw) solid var(--c-line);
 }
 
 .hero__stat {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--sp-1);
 }
 
+.hero__stat + .hero__stat::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--sp-5) / -2);
+  top: 0.15em;
+  bottom: 0.15em;
+  width: var(--bw);
+  background-color: var(--c-line);
+}
+
 .hero__stat-value {
   font-size: var(--fs-xl);
-  font-weight: 500;
-  letter-spacing: var(--ls-tight);
+  font-weight: 400;
+  letter-spacing: var(--ls-display);
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .hero__stat-label {
@@ -169,6 +200,10 @@
     flex-direction: row;
     align-items: baseline;
     gap: var(--sp-3);
+  }
+
+  .hero__stat + .hero__stat::before {
+    display: none;
   }
 
   .hero__stat-value {
@@ -198,20 +233,69 @@
   max-width: 26rem;
 }
 
+/* --- Подсказка о прокрутке ------------------------------------------------
+   Нижний край первого экрана пустой — без метки непонятно, что страница
+   продолжается. Черта ездит внутри своей дорожки сверху вниз. */
+
+.hero__scroll {
+  display: none;
+}
+
+/* Справа, а не слева: слева стоит плашка, и на невысоком экране они
+   наезжают друг на друга. Над шоурилом метка читается без подложки. */
+@media (min-width: 62rem) and (min-height: 58rem) {
+  .hero__scroll {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    position: absolute;
+    right: var(--gutter);
+    bottom: var(--sp-7);
+    z-index: var(--z-base);
+  }
+}
+
+.hero__scroll-track {
+  position: relative;
+  width: var(--bw);
+  height: 54px;
+  overflow: hidden;
+  background-color: var(--c-line);
+}
+
+.hero__scroll-track::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 40%;
+  background-color: var(--c-accent);
+  animation: scroll-hint 2.4s var(--e-inout) infinite;
+}
+
+@keyframes scroll-hint {
+  0%        { transform: translateY(-100%); }
+  55%, 100% { transform: translateY(250%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__scroll-track::after { animation: none; }
+}
+
 /* --- Появление ------------------------------------------------------------ */
 
 .hero [data-enter] {
   opacity: 0;
   transform: translateY(14px);
-  animation: hero-enter var(--t-slow) var(--e-out) forwards;
+  animation: hero-enter var(--t-cine) var(--e-out) forwards;
 }
 
 .hero [data-enter="1"] { animation-delay: 60ms; }
 .hero [data-enter="2"] { animation-delay: 140ms; }
-.hero [data-enter="3"] { animation-delay: 220ms; }
-.hero [data-enter="4"] { animation-delay: 300ms; }
-.hero [data-enter="5"] { animation-delay: 380ms; }
-.hero [data-enter="6"] { animation-delay: 460ms; }
+.hero [data-enter="3"] { animation-delay: 380ms; }
+.hero [data-enter="4"] { animation-delay: 480ms; }
+.hero [data-enter="5"] { animation-delay: 580ms; }
+.hero [data-enter="6"] { animation-delay: 660ms; }
 
 @keyframes hero-enter {
   to { opacity: 1; transform: translateY(0); }
@@ -221,6 +305,7 @@
   .hero [data-enter] {
     opacity: 1;
     transform: none;
+    animation: none;
   }
 }
 
@@ -229,14 +314,37 @@
 @media (min-width: 62rem) {
   .hero {
     padding-top: calc(var(--h-header) + var(--sp-5));
-    padding-bottom: var(--sp-6);
+    padding-bottom: var(--sp-7);
   }
 
   .hero__inner {
     gap: var(--sp-5);
+    max-width: 54rem;
   }
 
   .hero__title {
     margin-bottom: var(--sp-1);
+  }
+}
+
+/* Ноутбук: экран широкий, но низкий. Заголовок крупный, и в полный рост
+   блок не помещается — плашка уезжает за сгиб, а подсказка о прокрутке
+   оказывается там, куда никто не смотрит. Сжимаем шаги и кегль. */
+@media (min-width: 62rem) and (max-height: 58rem) {
+  .hero {
+    padding-top: calc(var(--h-header) + var(--sp-4));
+    padding-bottom: var(--sp-6);
+  }
+
+  .hero__inner {
+    gap: var(--sp-4);
+  }
+
+  .hero__title {
+    font-size: clamp(2.9rem, 2.6vw + 2rem, 4.5rem);
+  }
+
+  .hero__stats {
+    padding-top: var(--sp-4);
   }
 }
