@@ -32,12 +32,13 @@ window.App.heroReel = (function () {
   var u = window.App.utils;
 
   /* Отобраны по одному признаку: тёмный кадр с одним источником света.
-     Светлые рендеры и всё, где в кадр попал интерфейс, сюда не годятся. */
+     Светлые рендеры и всё, где в кадр попал интерфейс, сюда не годятся.
+     Отдельный кандидат на вылет — крупный яркий персонаж: красный
+     единорог на этом месте спорил с акцентом и читался как маскот. */
   var SHOTS = [
     "assets/media/works/building-halloween.jpg",
     "assets/media/works/vfx-portal.jpg",
-    "assets/media/works/model-gate.jpg",
-    "assets/media/works/model-unicorn.jpg"
+    "assets/media/works/model-gate.jpg"
   ];
 
   var MIN_WIDTH = 992;        /* та же граница, что у 62rem в стилях */
