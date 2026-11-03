@@ -12,7 +12,6 @@ window.APP_I18N = {
       "Разработка Roblox-проектов полного цикла: скриптинг, билдинг, моделинг, анимация, риг, VFX, SFX, музыка, GUI, катсцены. Опыт 3+ года.",
     "skip": "Перейти к содержимому",
     "lang.label": "Язык интерфейса",
-    "theme.label": "Переключить тему",
     "menu.open": "Открыть меню",
     "menu.close": "Закрыть меню",
 
@@ -196,7 +195,6 @@ window.APP_I18N = {
       "Full-cycle Roblox development: scripting, building, modelling, animation, rigging, VFX, SFX, music, GUI, cutscenes. 3+ years of experience.",
     "skip": "Skip to content",
     "lang.label": "Interface language",
-    "theme.label": "Toggle theme",
     "menu.open": "Open menu",
     "menu.close": "Close menu",
 

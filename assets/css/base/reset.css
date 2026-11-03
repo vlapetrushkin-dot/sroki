@@ -79,19 +79,6 @@ a {
   display: none !important;
 }
 
-/* На время переключения темы переходы выключаются полностью.
-
-   Причина не косметическая: Chromium не перезапускает уже объявленный
-   transition, когда меняется лишь значение CSS-переменной внутри него.
-   Элемент с `transition: border-color` и цветом из var() остаётся с
-   цветом прежней темы — в светлой теме это белые рамки на белом фоне.
-   Класс снимается на следующем кадре, см. theme.js. */
-:root.is-theme-switching *,
-:root.is-theme-switching *::before,
-:root.is-theme-switching *::after {
-  transition: none !important;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -17,6 +17,11 @@ window.App.i18n = (function () {
   var current = FALLBACK;
   var listeners = [];
 
+  /* Ключ хранения выбора языка. Раньше был "lang"; новый — чтобы после
+     перехода на английский по умолчанию старый сохранённый выбор не
+     держал сайт на русском. */
+  var STORE_KEY = "locale";
+
   /* Разметка из data-i18n обновляется сама, а блоки, собранные из данных
      (работы), должны перерисоваться — для них подписка. */
   function onChange(fn) {
@@ -33,12 +38,11 @@ window.App.i18n = (function () {
     });
   }
 
+  /* Английский — всегда по умолчанию, язык браузера не угадываем.
+     Русский включается только кнопкой RU, и этот выбор запоминается. */
   function detect() {
-    var saved = u.read("lang");
-    if (saved && DICT[saved]) return saved;
-
-    var browser = (navigator.language || navigator.userLanguage || "").toLowerCase();
-    return browser.indexOf("ru") === 0 ? "ru" : "en";
+    var saved = u.read(STORE_KEY);
+    return saved && DICT[saved] ? saved : FALLBACK;
   }
 
   function t(key) {
@@ -81,7 +85,7 @@ window.App.i18n = (function () {
   function set(lang) {
     if (!DICT[lang] || lang === current) return;
     current = lang;
-    u.write("lang", lang);
+    u.write(STORE_KEY, lang);
     apply();
     notify();
   }

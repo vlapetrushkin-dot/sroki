@@ -1,19 +1,13 @@
 /* ==========================================================================
-   RIFT — разлом-вспышка: светящееся ядро, расходящиеся трещины, осколки.
+   RIFT — энергетическая вспышка: ядро, лучи, бегущие импульсы, искры.
 
-   Разметку создаёт rift.js процедурно, здесь только внешний вид.
-
-   Слои снизу вверх:
-     .rift__core    — ядро: белое в центре, к краю уходит в акцент
-     .rift__crack   — трещины, прочерчиваются и затухают
-     .rift__shard   — осколки, медленно дрейфуют наружу
-
+   Рисует rift.js на canvas, здесь только размещение и общая яркость.
    Всё декоративное: событий не ловит, из потока выключено, при
    отключённых анимациях вообще не создаётся.
    ========================================================================== */
 
-/* Секции изолируются в собственный слой: без этого разлом с z-index -1
-   провалился бы за фон страницы, а с z-index 0 — лёг бы поверх текста,
+/* Секции изолируются в собственный слой: без этого вспышка с z-index -1
+   провалилась бы за фон страницы, а с z-index 0 — легла бы поверх текста,
    потому что позиционированные элементы рисуются после обычного потока. */
 .section,
 .hero {
@@ -37,115 +31,10 @@
   opacity: var(--rift-strength);
 }
 
-.rift svg {
-  position: relative;
+.rift canvas {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: visible;
-}
-
-
-/* --- Ядро ----------------------------------------------------------------- */
-
-.rift__core {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 46%;
-  height: 46%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  /* Белое пятно в центре и акцентный ореол вокруг: свет идёт изнутри
-     разлома, а не лежит на поверхности. */
-  background:
-    radial-gradient(closest-side,
-      color-mix(in srgb, var(--c-text) 92%, var(--c-accent)) 0%,
-      var(--c-accent) 26%,
-      color-mix(in srgb, var(--c-accent) 45%, transparent) 46%,
-      transparent 72%);
-  filter: blur(6px);
-  animation: rift-core 7s var(--e-inout) infinite;
-  animation-delay: calc(var(--i, 0) * -0.9s);
-}
-
-@keyframes rift-core {
-  0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.86); }
-  50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.06); }
-}
-
-/* --- Трещины -------------------------------------------------------------- */
-
-.rift__crack {
-  fill: none;
-  stroke: var(--c-accent);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 2px var(--c-accent))
-          drop-shadow(0 0 7px color-mix(in srgb, var(--c-accent) 60%, transparent));
-
-  /* Прочерчивание: длина заведомо больше самой длинной трещины. */
-  stroke-dasharray: 190;
-  stroke-dashoffset: 190;
-  animation: rift-draw 7s var(--e-out) infinite;
-  animation-delay: calc(var(--delay, 0s) + var(--i, 0) * -0.9s);
-}
-
-/* У ответвлений размытия нет: drop-shadow на анимируемом пути считается
-   каждый кадр, а на тонких линиях его всё равно почти не видно. */
-.rift__crack--thin {
-  stroke-width: 1;
-  opacity: 0.8;
-  filter: none;
-}
-
-@keyframes rift-draw {
-  0%       { stroke-dashoffset: 190; opacity: 0; }
-  12%      { opacity: 1; }
-  45%, 72% { stroke-dashoffset: 0; opacity: 1; }
-  100%     { stroke-dashoffset: 0; opacity: 0; }
-}
-
-/* --- Осколки -------------------------------------------------------------- */
-
-.rift__shard {
-  fill: var(--c-bg-elev);
-  stroke: var(--c-line-strong);
-  stroke-width: 0.6;
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: rift-shard 9s var(--e-inout) infinite;
-  animation-delay: calc(var(--delay, 0s) * -1);
-}
-
-/* Часть осколков ловит свет из разлома. */
-.rift__shard--lit {
-  fill: color-mix(in srgb, var(--c-accent) 22%, var(--c-bg-elev));
-  stroke: var(--c-accent-text);
-}
-
-@keyframes rift-shard {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.55; }
-  50%      { transform: translate(var(--drift, 5px), calc(var(--drift, 5px) * -1.2)) rotate(14deg); opacity: 1; }
-}
-
-/* --- Пауза за экраном -----------------------------------------------------
-   Блок стоит ПОСЛЕ объявлений анимаций намеренно: короткая запись
-   `animation` сбрасывает animation-play-state в running, и правило,
-   написанное выше, было бы затёрто.
-
-   Класс is-asleep вешает rift.js на вспышки за пределами экрана: из
-   четырнадцати одновременно считаются две-три, остальные стоят.
-
-   Логика именно такая, а не наоборот, ради безопасного отказа: если
-   наблюдатель не отработает, всё просто анимируется как обычно. При
-   обратной логике вспышки застыли бы в нулевом кадре, где трещины ещё
-   не прочерчены, — то есть исчезли бы. */
-.rift.is-asleep .rift__core,
-.rift.is-asleep .rift__crack,
-.rift.is-asleep .rift__shard {
-  animation-play-state: paused;
 }
 
 /* --- Адаптив -------------------------------------------------------------- */

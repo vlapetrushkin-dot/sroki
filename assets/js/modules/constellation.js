@@ -252,9 +252,6 @@ window.App.constellation = (function () {
       if (document.hidden) stop();
       else start();
     });
-
-    /* Тема сменилась — токены другие, цвета надо перечитать. */
-    u.on(document.documentElement, "themechange", readColors);
   }
 
   return {

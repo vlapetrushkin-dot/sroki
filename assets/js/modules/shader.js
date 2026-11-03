@@ -143,7 +143,7 @@ window.App.shader = (function () {
     return true;
   }
 
-  /** Акцент берётся из токенов — при смене темы цвет поля меняется тоже. */
+  /** Акцент берётся из токенов: сменили цвет в tokens.css — поле подхватит. */
   function readAccent() {
     var cs = getComputedStyle(document.documentElement);
     var raw = cs.getPropertyValue("--c-accent").trim().replace("#", "");
@@ -158,8 +158,7 @@ window.App.shader = (function () {
 
     gl.useProgram(program);
     gl.uniform3f(loc.accent, rgb[0], rgb[1], rgb[2]);
-    gl.uniform1f(loc.dark,
-      document.documentElement.getAttribute("data-theme") === "light" ? 0 : 1);
+    gl.uniform1f(loc.dark, 1);
   }
 
   function resize() {
@@ -229,8 +228,6 @@ window.App.shader = (function () {
       if (document.hidden) stop();
       else start();
     });
-
-    u.on(document.documentElement, "themechange", readAccent);
   }
 
   return { init: init };

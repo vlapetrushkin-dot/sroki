@@ -21,7 +21,7 @@
 /* --- Компоненты ----------------------------------------------------------- */
 @import url("components/button.css");
 @import url("components/badge.css");
-@import url("components/theme-toggle.css");
+@import url("components/lang-switch.css");
 @import url("components/hire-plate.css");
 @import url("components/team-plate.css");
 @import url("components/skill-place.css");
