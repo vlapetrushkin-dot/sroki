@@ -1,7 +1,7 @@
 /* ==========================================================================
    MAIN — единственная точка входа для стилей.
    Порядок важен: токены → сброс → типографика → каркас → компоненты →
-   секции → мотивы.
+   секции.
 
    На этапе разработки файлы подключены через @import — удобно править.
    Перед деплоем (Этап 8) всё склеивается в один файл, чтобы убрать
@@ -25,6 +25,7 @@
 @import url("components/hire-plate.css");
 @import url("components/team-plate.css");
 @import url("components/skill-place.css");
+@import url("components/motif.css");
 @import url("components/constellation.css");
 @import url("components/rift.css");
 @import url("components/scene.css");
@@ -43,15 +44,3 @@
 @import url("sections/process.css");
 @import url("sections/about.css");
 @import url("sections/contact.css");
-
-/* --- Мотивы: по одному на дисциплину, только декор ------------------------ */
-@import url("motifs/_motif-base.css");
-@import url("motifs/building.css");
-@import url("motifs/modelling.css");
-@import url("motifs/scripting.css");
-@import url("motifs/animation.css");
-@import url("motifs/rig.css");
-@import url("motifs/vfx.css");
-@import url("motifs/sfx-music.css");
-@import url("motifs/gui.css");
-@import url("motifs/cutscene.css");

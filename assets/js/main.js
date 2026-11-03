@@ -29,6 +29,7 @@
     window.App.constellation.init();
     window.App.shader.init();
     window.App.rift.init();
+    window.App.motifs.init();
     window.App.magnetic.init();
 
     /* Год в подвале — чтобы не устаревал. */

@@ -1,0 +1,154 @@
+/* ==========================================================================
+   MOTIF — палитра и линии живых иллюстраций в карточках дисциплин.
+
+   Рисует и анимирует motifs.js, здесь только «чернила». Все тона —
+   смеси текста с фоном слота, а не полупрозрачные цвета: там, где линии
+   пересекаются или грани перекрывают друг друга, полупрозрачность дала
+   бы пятна двойной яркости.
+
+   Тона зарегистрированы через @property, поэтому при наведении они
+   перетекают плавно, а не переключаются.
+   ========================================================================== */
+
+@property --mt-ink    { syntax: "<color>"; inherits: true; initial-value: #3d3f42; }
+@property --mt-dim    { syntax: "<color>"; inherits: true; initial-value: #222427; }
+@property --mt-strong { syntax: "<color>"; inherits: true; initial-value: #6b6d6f; }
+@property --mt-bright { syntax: "<color>"; inherits: true; initial-value: #9fa1a2; }
+@property --mt-face   { syntax: "<color>"; inherits: true; initial-value: #131416; }
+@property --mt-top    { syntax: "<color>"; inherits: true; initial-value: #1c1d20; }
+@property --mt-right  { syntax: "<color>"; inherits: true; initial-value: #16181a; }
+@property --mt-left   { syntax: "<color>"; inherits: true; initial-value: #101113; }
+
+.skill-place__motif {
+  --mt-ink:    color-mix(in srgb, var(--c-text) 24%, var(--c-bg-sunken));
+  --mt-dim:    color-mix(in srgb, var(--c-text) 11%, var(--c-bg-sunken));
+  --mt-strong: color-mix(in srgb, var(--c-text) 38%, var(--c-bg-sunken));
+  --mt-bright: color-mix(in srgb, var(--c-text) 56%, var(--c-bg-sunken));
+  --mt-face:   color-mix(in srgb, var(--c-text) 4%,  var(--c-bg-sunken));
+  --mt-top:    color-mix(in srgb, var(--c-text) 9%,  var(--c-bg-sunken));
+  --mt-right:  color-mix(in srgb, var(--c-text) 5.5%, var(--c-bg-sunken));
+  --mt-left:   color-mix(in srgb, var(--c-text) 2.5%, var(--c-bg-sunken));
+
+  transition: --mt-ink 0.6s var(--e-out), --mt-dim 0.6s var(--e-out),
+              --mt-strong 0.6s var(--e-out), --mt-bright 0.6s var(--e-out),
+              --mt-face 0.6s var(--e-out), --mt-top 0.6s var(--e-out),
+              --mt-right 0.6s var(--e-out), --mt-left 0.6s var(--e-out);
+}
+
+.skill-place:is(:hover, .is-active) .skill-place__motif {
+  --mt-ink:    color-mix(in srgb, var(--c-text) 44%, var(--c-bg-sunken));
+  --mt-dim:    color-mix(in srgb, var(--c-text) 16%, var(--c-bg-sunken));
+  --mt-strong: color-mix(in srgb, var(--c-text) 62%, var(--c-bg-sunken));
+  --mt-bright: color-mix(in srgb, var(--c-text) 82%, var(--c-bg-sunken));
+  --mt-face:   color-mix(in srgb, var(--c-text) 6%,  var(--c-bg-sunken));
+  --mt-top:    color-mix(in srgb, var(--c-text) 13%, var(--c-bg-sunken));
+  --mt-right:  color-mix(in srgb, var(--c-text) 8%,  var(--c-bg-sunken));
+  --mt-left:   color-mix(in srgb, var(--c-text) 4%,  var(--c-bg-sunken));
+}
+
+/* --- Основа --------------------------------------------------------------- */
+
+.mt {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--mt-ink);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Толщина линий не зависит от размера карточки: всегда тонкая и чёткая. */
+.mt * {
+  vector-effect: non-scaling-stroke;
+}
+
+/* --- Линии ---------------------------------------------------------------- */
+
+.mt-dim    { stroke: var(--mt-dim); }
+.mt-strong { stroke: var(--mt-strong); }
+.mt-solid  { stroke: var(--mt-ink); }
+.mt-wire   { stroke: var(--mt-bright); }
+.mt-onion  { stroke: var(--mt-ink); fill: none; }
+.mt-head   { stroke: var(--mt-bright); }
+
+.mt-dash      { stroke-dasharray: 2.5 3; }
+.mt-dash-long { stroke-dasharray: 7 5; }
+.mt-dots      { stroke-dasharray: 0.01 4.5; stroke-width: 1.8; }
+
+/* --- Заливки -------------------------------------------------------------- */
+
+.mt-face  { fill: var(--mt-face); }
+.mt-ftop  { fill: var(--mt-top); }
+.mt-fr    { fill: var(--mt-right); }
+.mt-fl    { fill: var(--mt-left); }
+.mt-fill     { fill: var(--mt-ink); stroke: none; }
+.mt-fill-dim { fill: var(--mt-dim); stroke: none; }
+.mt-shade { fill: #000; stroke: none; }
+.mt-screen { fill: var(--c-bg-sunken); }
+.mt-bar-fill { fill: color-mix(in srgb, #000 55%, var(--c-bg-sunken)); }
+
+.mt-key {
+  fill: var(--c-bg-sunken);
+  stroke: var(--mt-ink);
+}
+
+/* --- Акцент — один на мотив ----------------------------------------------- */
+
+.mt-acc      { stroke: var(--c-accent); stroke-width: 1.5; }
+.mt-acc-fill { fill: var(--c-accent); stroke: none; }
+.mt-acc-face { fill: color-mix(in srgb, var(--c-accent) 14%, var(--c-bg-sunken)); }
+.mt-acc-ftop { fill: color-mix(in srgb, var(--c-accent) 24%, var(--c-bg-sunken)); }
+.mt-acc-fr   { fill: color-mix(in srgb, var(--c-accent) 14%, var(--c-bg-sunken)); }
+.mt-acc-fl   { fill: color-mix(in srgb, var(--c-accent) 8%,  var(--c-bg-sunken)); }
+.mt-spark    { fill: color-mix(in srgb, var(--c-accent) 45%, #fff); stroke: none; }
+
+/* --- Скриптинг: токены кода ----------------------------------------------- */
+
+.mt-tk-k { fill: var(--mt-strong); stroke: none; }
+.mt-tk-a { fill: var(--mt-bright); stroke: none; }
+.mt-tk-i { fill: var(--mt-ink);    stroke: none; }
+.mt-tk-p { fill: var(--mt-dim);    stroke: none; }
+.mt-tk-n { fill: color-mix(in srgb, var(--c-accent) 45%, var(--c-bg-sunken)); stroke: none; }
+
+.mt-hl {
+  fill: color-mix(in srgb, var(--c-text) 5%, transparent);
+  stroke: none;
+  transition: transform 0.24s var(--e-out);
+}
+
+.mt-sweep {
+  fill: color-mix(in srgb, var(--c-accent) 9%, transparent);
+  stroke: none;
+}
+
+/* --- Звук ----------------------------------------------------------------- */
+
+.mt-bar {
+  fill: var(--mt-ink);
+  stroke: none;
+  transition: fill 0.35s var(--e-out);
+}
+
+.mt-bar.is-played {
+  fill: var(--mt-bright);
+}
+
+/* --- GUI ------------------------------------------------------------------ */
+
+.mt-on   { fill: var(--mt-strong); }
+.mt-knob { fill: var(--mt-bright); stroke: none; }
+
+.mt-btn {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.mt-cursor {
+  fill: var(--c-text);
+  stroke: var(--c-bg-sunken);
+  stroke-width: 1;
+}
